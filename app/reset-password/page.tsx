@@ -5,44 +5,67 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
 
+interface DebugInfo {
+  queryParams: Record<string, string>;
+  hashFragment: string;
+  hashParams: Record<string, string>;
+  deepLink: string;
+}
+
 function ResetPasswordContent() {
   const searchParams = useSearchParams();
-  const [deepLink, setDeepLink] = useState<string | null>(null);
+  const [debugInfo, setDebugInfo] = useState<DebugInfo | null>(null);
+  const [deepLink, setDeepLink] = useState<string>("");
 
-  const buildDeepLink = useCallback((search: URLSearchParams, hash: string) => {
-    // Merge query params and hash params — Supabase uses both depending on flow
-    const merged = new URLSearchParams();
-
-    // 1. Copy all query params (?foo=bar)
-    search.forEach((value, key) => merged.set(key, value));
-
-    // 2. Parse hash fragment (#foo=bar) and merge on top
-    if (hash && hash.length > 1) {
-      const hashParams = new URLSearchParams(hash.slice(1)); // strip leading #
-      hashParams.forEach((value, key) => merged.set(key, value));
-    }
-
-    console.log("[Wings /reset-password] Query params:", Object.fromEntries(search.entries()));
-    console.log("[Wings /reset-password] Hash params:", hash);
-    console.log("[Wings /reset-password] Merged params:", Object.fromEntries(merged.entries()));
-
-    const url = `wings://reset-password?${merged.toString()}`;
-    console.log("[Wings /reset-password] Deep link:", url);
-    return url;
-  }, []);
-
-  const attemptRedirect = useCallback((link: string) => {
-    window.location.href = link;
+  const triggerRedirect = useCallback((url: string) => {
+    // Use an invisible anchor click — more reliable than location.href for
+    // custom schemes on Android/iOS
+    const a = document.createElement("a");
+    a.href = url;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }, []);
 
   useEffect(() => {
-    const link = buildDeepLink(searchParams, window.location.hash);
-    setDeepLink(link);
-    attemptRedirect(link);
-  }, [searchParams, buildDeepLink, attemptRedirect]);
+    // --- Collect query params (?key=value) ---
+    const queryParams: Record<string, string> = {};
+    searchParams.forEach((value, key) => {
+      queryParams[key] = value;
+    });
+
+    // --- Collect hash params (#key=value) ---
+    const rawHash = window.location.hash;
+    const hashParams: Record<string, string> = {};
+    if (rawHash && rawHash.length > 1) {
+      const hashSearchParams = new URLSearchParams(rawHash.slice(1));
+      hashSearchParams.forEach((value, key) => {
+        hashParams[key] = value;
+      });
+    }
+
+    // --- Merge: hash params win over query params if both present ---
+    const merged = new URLSearchParams();
+    Object.entries(queryParams).forEach(([k, v]) => merged.set(k, v));
+    Object.entries(hashParams).forEach(([k, v]) => merged.set(k, v));
+
+    const url = `wings://reset-password?${merged.toString()}`;
+
+    console.log("[Wings] Full URL:", window.location.href);
+    console.log("[Wings] Query params:", queryParams);
+    console.log("[Wings] Hash fragment:", rawHash);
+    console.log("[Wings] Hash params:", hashParams);
+    console.log("[Wings] Merged params:", Object.fromEntries(merged.entries()));
+    console.log("[Wings] Deep link:", url);
+
+    setDebugInfo({ queryParams, hashFragment: rawHash, hashParams, deepLink: url });
+    setDeepLink(url);
+    triggerRedirect(url);
+  }, [searchParams, triggerRedirect]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12 text-center">
       {/* Background orbs */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 overflow-hidden">
         <div
@@ -55,7 +78,7 @@ function ResetPasswordContent() {
         />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center gap-8 max-w-sm">
+      <div className="relative z-10 flex flex-col items-center gap-8 max-w-sm w-full">
         {/* Logo */}
         <Image
           src="/wings-logo.svg"
@@ -93,7 +116,7 @@ function ResetPasswordContent() {
 
         {/* Try again */}
         <button
-          onClick={() => deepLink && attemptRedirect(deepLink)}
+          onClick={() => deepLink && triggerRedirect(deepLink)}
           className="btn-gradient rounded-xl px-8 py-3.5 text-sm font-semibold text-white shadow-lg"
         >
           Open in Wings
@@ -102,6 +125,28 @@ function ResetPasswordContent() {
         <p className="text-xs text-slate-600">
           Make sure the Wings app is installed on your device.
         </p>
+
+        {/* Debug panel — visible on page so you can check without devtools */}
+        {debugInfo && (
+          <div className="mt-4 w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-left font-mono text-xs text-slate-400">
+            <p className="mb-2 text-slate-300 font-semibold">Debug info</p>
+
+            <p className="text-slate-500 mb-0.5">Query params (?)</p>
+            <p className="mb-3 break-all text-slate-300">
+              {Object.keys(debugInfo.queryParams).length > 0
+                ? JSON.stringify(debugInfo.queryParams, null, 2)
+                : "— none —"}
+            </p>
+
+            <p className="text-slate-500 mb-0.5">Hash fragment (#)</p>
+            <p className="mb-3 break-all text-slate-300">
+              {debugInfo.hashFragment || "— none —"}
+            </p>
+
+            <p className="text-slate-500 mb-0.5">Deep link built</p>
+            <p className="break-all text-green-400">{debugInfo.deepLink}</p>
+          </div>
+        )}
       </div>
     </div>
   );
