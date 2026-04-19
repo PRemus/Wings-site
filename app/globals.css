@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand-blue: #3B82F6;
+  --color-brand-cyan: #06B6D4;
+  --color-brand-green: #10B981;
+  --color-brand-lime: #84CC16;
+  --color-brand-gold: #EAB308;
+  --color-bg-primary: #060B18;
+  --color-bg-card: #0F172A;
+  --color-bg-card-hover: #111827;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.7s ease-out forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-orb-1: orb-move-1 15s ease-in-out infinite;
+  --animate-orb-2: orb-move-2 18s ease-in-out infinite;
+  --animate-spin-slow: spin-slow 20s linear infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes orb-move-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes orb-move-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 20px) scale(1.15); }
+  66% { transform: translate(20px, -30px) scale(0.85); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(59,130,246,0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #060B18;
+  color: #F8FAFC;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 25%, #10B981 50%, #84CC16 75%, #EAB308 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient border card */
+.gradient-border-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 16px;
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.4), rgba(16,185,129,0.4), rgba(234,179,8,0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.gradient-border-card:hover::before {
+  background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(16,185,129,0.8), rgba(234,179,8,0.8));
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Gradient button */
+.btn-gradient {
+  background: linear-gradient(135deg, #3B82F6, #10B981, #EAB308);
+  background-size: 200% auto;
+  transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background-position: right center;
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.35);
+}
+
+.btn-gradient:active {
+  transform: translateY(0);
+}
+
+/* Scroll reveal — visible by default (SSR/no-JS safe).
+   JS adds .animating to enable the entrance effect. */
+.reveal {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.animating {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.reveal.animating.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #060B18; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3B82F6, #10B981);
+  border-radius: 3px;
+}
+
+/* Pulse animation for CTA */
+.pulse-glow {
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+/* Shimmer for loading */
+.shimmer-btn {
+  background: linear-gradient(135deg, #3B82F6 0%, #10B981 50%, #EAB308 100%);
+  background-size: 200% auto;
+  animation: shimmer 1.5s linear infinite;
 }
