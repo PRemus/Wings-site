@@ -50,7 +50,7 @@ function ResetPasswordContent() {
       }
 
       const SUPABASE_URL = "https://btvjimmubdgjxbfxeyxg.supabase.co";
-      const SUPABASE_KEY = process.env.NEXT_PUBLIC_WINGS_SUPABASE_ANON_KEY ?? "";
+      const SUPABASE_KEY = "sb_publishable_rvNhpqIiWEHHMAAm3nkdYg_ISkRKZkZ";
 
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 8000);
