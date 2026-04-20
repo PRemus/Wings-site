@@ -4,65 +4,82 @@ import { useEffect, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
+import { wingsSupabase } from "@/lib/supabase-wings";
 
-interface DebugInfo {
-  queryParams: Record<string, string>;
-  hashFragment: string;
-  hashParams: Record<string, string>;
-  deepLink: string;
-}
+type PageState = "verifying" | "invalid" | "form" | "submitting" | "success";
 
 function ResetPasswordContent() {
   const searchParams = useSearchParams();
-  const [debugInfo, setDebugInfo] = useState<DebugInfo | null>(null);
-  const [deepLink, setDeepLink] = useState<string>("");
+  const [state, setState] = useState<PageState>("verifying");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [formError, setFormError] = useState("");
 
-  const triggerRedirect = useCallback((url: string) => {
-    // Use an invisible anchor click — more reliable than location.href for
-    // custom schemes on Android/iOS
+  useEffect(() => {
+    async function verify() {
+      // Read from query params first, then hash fragment as fallback
+      let tokenHash = searchParams.get("token_hash") ?? "";
+      let type = (searchParams.get("type") ?? "recovery") as "recovery" | "email" | "signup" | "invite" | "magiclink" | "email_change";
+
+      if (!tokenHash && window.location.hash.length > 1) {
+        const hashParams = new URLSearchParams(window.location.hash.slice(1));
+        tokenHash = hashParams.get("token_hash") ?? hashParams.get("access_token") ?? "";
+        type = (hashParams.get("type") ?? "recovery") as typeof type;
+      }
+
+      if (!tokenHash) {
+        setErrorMsg("This link is invalid. Please request a new password reset from the Wings app.");
+        setState("invalid");
+        return;
+      }
+
+      const { error } = await wingsSupabase.auth.verifyOtp({ token_hash: tokenHash, type });
+
+      if (error) {
+        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+        setState("invalid");
+      } else {
+        setState("form");
+      }
+    }
+
+    verify();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError("");
+
+    if (password.length < 8) {
+      setFormError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setFormError("Passwords do not match.");
+      return;
+    }
+
+    setState("submitting");
+    const { error } = await wingsSupabase.auth.updateUser({ password });
+
+    if (error) {
+      setFormError(error.message || "Something went wrong. Please try again.");
+      setState("form");
+    } else {
+      setState("success");
+    }
+  }, [password, confirm]);
+
+  const openApp = useCallback(() => {
     const a = document.createElement("a");
-    a.href = url;
+    a.href = "wings://login";
     a.style.display = "none";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }, []);
-
-  useEffect(() => {
-    // --- Collect query params (?key=value) ---
-    const queryParams: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      queryParams[key] = value;
-    });
-
-    // --- Collect hash params (#key=value) ---
-    const rawHash = window.location.hash;
-    const hashParams: Record<string, string> = {};
-    if (rawHash && rawHash.length > 1) {
-      const hashSearchParams = new URLSearchParams(rawHash.slice(1));
-      hashSearchParams.forEach((value, key) => {
-        hashParams[key] = value;
-      });
-    }
-
-    // --- Merge: hash params win over query params if both present ---
-    const merged = new URLSearchParams();
-    Object.entries(queryParams).forEach(([k, v]) => merged.set(k, v));
-    Object.entries(hashParams).forEach(([k, v]) => merged.set(k, v));
-
-    const url = `wings://reset-password?${merged.toString()}`;
-
-    console.log("[Wings] Full URL:", window.location.href);
-    console.log("[Wings] Query params:", queryParams);
-    console.log("[Wings] Hash fragment:", rawHash);
-    console.log("[Wings] Hash params:", hashParams);
-    console.log("[Wings] Merged params:", Object.fromEntries(merged.entries()));
-    console.log("[Wings] Deep link:", url);
-
-    setDebugInfo({ queryParams, hashFragment: rawHash, hashParams, deepLink: url });
-    setDeepLink(url);
-    triggerRedirect(url);
-  }, [searchParams, triggerRedirect]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-4 py-12 text-center">
@@ -88,64 +105,129 @@ function ResetPasswordContent() {
           className="animate-float object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"
         />
 
-        {/* Spinner */}
-        <div className="relative flex h-16 w-16 items-center justify-center">
-          <div
-            className="absolute inset-0 rounded-full animate-spin-slow"
-            style={{
-              background: "conic-gradient(from 0deg, #3B82F6, #10B981, #EAB308, #3B82F6)",
-              mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
-              WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
-            }}
-          />
-          <svg className="h-7 w-7 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3m-3 3.75h3M6.75 20.25h.008v.008H6.75v-.008z" />
-          </svg>
-        </div>
+        {/* ── VERIFYING ── */}
+        {state === "verifying" && (
+          <>
+            <div className="relative flex h-16 w-16 items-center justify-center">
+              <div
+                className="absolute inset-0 rounded-full animate-spin-slow"
+                style={{
+                  background: "conic-gradient(from 0deg, #3B82F6, #10B981, #EAB308, #3B82F6)",
+                  mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
+                  WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
+                }}
+              />
+              <svg className="h-7 w-7 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-2xl font-bold text-white">Verifying your link<span className="animate-pulse">…</span></h1>
+              <p className="text-sm text-slate-400">Just a moment.</p>
+            </div>
+          </>
+        )}
 
-        {/* Message */}
-        <div className="flex flex-col items-center gap-2">
-          <h1 className="text-2xl font-bold text-white">
-            Opening Wings app<span className="animate-pulse">…</span>
-          </h1>
-          <p className="text-sm text-slate-400 leading-relaxed">
-            You should be redirected automatically.<br />
-            If nothing happens, tap the button below.
-          </p>
-        </div>
+        {/* ── INVALID ── */}
+        {state === "invalid" && (
+          <>
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 border border-red-500/30">
+              <svg className="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-2xl font-bold text-white">Link expired</h1>
+              <p className="text-sm text-slate-400 leading-relaxed max-w-xs">{errorMsg}</p>
+            </div>
+          </>
+        )}
 
-        {/* Try again */}
-        <button
-          onClick={() => deepLink && triggerRedirect(deepLink)}
-          className="btn-gradient rounded-xl px-8 py-3.5 text-sm font-semibold text-white shadow-lg"
-        >
-          Open in Wings
-        </button>
+        {/* ── FORM ── */}
+        {(state === "form" || state === "submitting") && (
+          <>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-2xl font-bold text-white">Set new password</h1>
+              <p className="text-sm text-slate-400">Choose a strong password for your Wings account.</p>
+            </div>
 
-        <p className="text-xs text-slate-600">
-          Make sure the Wings app is installed on your device.
-        </p>
+            <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">New password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="At least 8 characters"
+                  required
+                  disabled={state === "submitting"}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 disabled:opacity-50 transition"
+                />
+              </div>
 
-        {/* Debug panel — visible on page so you can check without devtools */}
-        {debugInfo && (
-          <div className="mt-4 w-full rounded-2xl border border-white/10 bg-white/5 p-4 text-left font-mono text-xs text-slate-400">
-            <p className="mb-2 text-slate-300 font-semibold">Debug info</p>
+              <div className="flex flex-col gap-1.5 text-left">
+                <label className="text-xs font-medium text-slate-400 uppercase tracking-wider">Confirm password</label>
+                <input
+                  type="password"
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                  placeholder="Repeat your password"
+                  required
+                  disabled={state === "submitting"}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-600 outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 disabled:opacity-50 transition"
+                />
+              </div>
 
-            <p className="text-slate-500 mb-0.5">Query params (?)</p>
-            <p className="mb-3 break-all text-slate-300">
-              {Object.keys(debugInfo.queryParams).length > 0
-                ? JSON.stringify(debugInfo.queryParams, null, 2)
-                : "— none —"}
-            </p>
+              {formError && (
+                <p className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm text-red-400 text-left">
+                  {formError}
+                </p>
+              )}
 
-            <p className="text-slate-500 mb-0.5">Hash fragment (#)</p>
-            <p className="mb-3 break-all text-slate-300">
-              {debugInfo.hashFragment || "— none —"}
-            </p>
+              <button
+                type="submit"
+                disabled={state === "submitting"}
+                className="btn-gradient mt-2 rounded-xl px-8 py-3.5 text-sm font-semibold text-white shadow-lg disabled:opacity-60 flex items-center justify-center gap-2"
+              >
+                {state === "submitting" ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                    </svg>
+                    Updating…
+                  </>
+                ) : (
+                  "Update password"
+                )}
+              </button>
+            </form>
+          </>
+        )}
 
-            <p className="text-slate-500 mb-0.5">Deep link built</p>
-            <p className="break-all text-green-400">{debugInfo.deepLink}</p>
-          </div>
+        {/* ── SUCCESS ── */}
+        {state === "success" && (
+          <>
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/30">
+              <svg className="h-8 w-8 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-2xl font-bold text-white">Password updated!</h1>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                You can now sign in with your new password.
+              </p>
+            </div>
+            <button
+              onClick={openApp}
+              className="rounded-xl px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition-all hover:opacity-90"
+              style={{ background: "linear-gradient(135deg, #0891b2, #10B981)" }}
+            >
+              Open Wings app
+            </button>
+            <p className="text-xs text-slate-600">Make sure the Wings app is installed on your device.</p>
+          </>
         )}
       </div>
     </div>
