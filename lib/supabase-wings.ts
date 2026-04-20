@@ -1,8 +1,13 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-// Strip /rest/v1/ suffix if present — the JS client needs the base URL only
-const rawUrl = process.env.NEXT_PUBLIC_WINGS_SUPABASE_URL ?? "";
-const supabaseUrl = rawUrl.replace(/\/rest\/v1\/?$/, "");
-const supabaseKey = process.env.NEXT_PUBLIC_WINGS_SUPABASE_ANON_KEY ?? "";
+let _client: SupabaseClient | null = null;
 
-export const wingsSupabase = createClient(supabaseUrl, supabaseKey);
+export function getWingsSupabase(): SupabaseClient {
+  if (!_client) {
+    const rawUrl = process.env.NEXT_PUBLIC_WINGS_SUPABASE_URL ?? "";
+    const supabaseUrl = rawUrl.replace(/\/rest\/v1\/?$/, "");
+    const supabaseKey = process.env.NEXT_PUBLIC_WINGS_SUPABASE_ANON_KEY ?? "";
+    _client = createClient(supabaseUrl, supabaseKey);
+  }
+  return _client;
+}

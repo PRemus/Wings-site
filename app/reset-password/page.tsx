@@ -6,7 +6,7 @@ import { useEffect, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
-import { wingsSupabase } from "@/lib/supabase-wings";
+import { getWingsSupabase } from "@/lib/supabase-wings";
 
 type PageState = "verifying" | "invalid" | "form" | "submitting" | "success";
 
@@ -36,7 +36,7 @@ function ResetPasswordContent() {
         return;
       }
 
-      const { error } = await wingsSupabase.auth.verifyOtp({ token_hash: tokenHash, type });
+      const { error } = await getWingsSupabase().auth.verifyOtp({ token_hash: tokenHash, type });
 
       if (error) {
         setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
@@ -64,7 +64,7 @@ function ResetPasswordContent() {
     }
 
     setState("submitting");
-    const { error } = await wingsSupabase.auth.updateUser({ password });
+    const { error } = await getWingsSupabase().auth.updateUser({ password });
 
     if (error) {
       setFormError(error.message || "Something went wrong. Please try again.");
