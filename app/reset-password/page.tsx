@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
-import { useRef, useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -20,21 +20,19 @@ function ResetPasswordContent() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [formError, setFormError] = useState("");
+  const [tokenHash, setTokenHash] = useState("");
 
-  // Read token once from URL — never consume it until submit
-  const tokenHash = useRef<string>(
-    (() => {
-      if (typeof window === "undefined") return "";
-      const hash = window.location.hash.length > 1
-        ? new URLSearchParams(window.location.hash.slice(1))
-        : new URLSearchParams();
-      return (
-        searchParams.get("token_hash") ??
-        hash.get("token_hash") ??
-        ""
-      );
-    })()
-  );
+  // Read token after mount so searchParams and window.location are both available
+  useEffect(() => {
+    const hashParams = window.location.hash.length > 1
+      ? new URLSearchParams(window.location.hash.slice(1))
+      : new URLSearchParams();
+    const token =
+      searchParams.get("token_hash") ??
+      hashParams.get("token_hash") ??
+      "";
+    setTokenHash(token);
+  }, [searchParams]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,8 +47,7 @@ function ResetPasswordContent() {
       return;
     }
 
-    const token = tokenHash.current;
-    if (!token) {
+    if (!tokenHash) {
       setErrorMsg("This link is invalid. Please request a new password reset from the Wings app.");
       setState("invalid");
       return;
@@ -69,14 +66,17 @@ function ResetPasswordContent() {
           "apikey": SUPABASE_KEY,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token_hash: token, type: "recovery" }),
+        body: JSON.stringify({ token_hash: tokenHash, type: "recovery" }),
         signal: controller.signal,
       });
 
       clearTimeout(timeout);
 
+      // Show the real Supabase error message to help diagnose
       if (!res.ok) {
-        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+        let detail = "";
+        try { detail = (await res.json()).msg || (await res.text()); } catch { /* ignore */ }
+        setErrorMsg(`Verification failed (${res.status}): ${detail || "link may have expired"}. Please request a new password reset from the Wings app.`);
         setState("invalid");
         return;
       }
@@ -85,7 +85,7 @@ function ResetPasswordContent() {
       const { access_token, refresh_token } = data;
 
       if (!access_token || !refresh_token) {
-        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+        setErrorMsg("Verification succeeded but no session was returned. Please request a new password reset from the Wings app.");
         setState("invalid");
         return;
       }
@@ -103,12 +103,13 @@ function ResetPasswordContent() {
       }
 
       setState("success");
-    } catch {
+    } catch (err) {
       clearTimeout(timeout);
-      setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+      const msg = err instanceof Error ? err.message : String(err);
+      setErrorMsg(`Request failed: ${msg}. Please request a new password reset from the Wings app.`);
       setState("invalid");
     }
-  }, [password, confirm]);
+  }, [password, confirm, tokenHash]);
 
   const openApp = useCallback(() => {
     const a = document.createElement("a");
