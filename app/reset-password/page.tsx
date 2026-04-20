@@ -20,14 +20,12 @@ function ResetPasswordContent() {
 
   useEffect(() => {
     async function verify() {
-      // Read from query params first, then hash fragment as fallback
+      // Read token_hash from query params, fall back to hash fragment
       let tokenHash = searchParams.get("token_hash") ?? "";
-      let type = (searchParams.get("type") ?? "recovery") as "recovery" | "email" | "signup" | "invite" | "magiclink" | "email_change";
 
       if (!tokenHash && window.location.hash.length > 1) {
         const hashParams = new URLSearchParams(window.location.hash.slice(1));
         tokenHash = hashParams.get("token_hash") ?? hashParams.get("access_token") ?? "";
-        type = (hashParams.get("type") ?? "recovery") as typeof type;
       }
 
       if (!tokenHash) {
@@ -36,13 +34,46 @@ function ResetPasswordContent() {
         return;
       }
 
-      const { error } = await getWingsSupabase().auth.verifyOtp({ token_hash: tokenHash, type });
+      const SUPABASE_URL = "https://btvjimmubdgjxbfxeyxg.supabase.co";
+      const SUPABASE_KEY = process.env.NEXT_PUBLIC_WINGS_SUPABASE_ANON_KEY ?? "";
 
-      if (error) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+          method: "POST",
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token_hash: tokenHash, type: "recovery" }),
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeout);
+
+        if (!res.ok) {
+          setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+          setState("invalid");
+          return;
+        }
+
+        const data = await res.json();
+        const { access_token, refresh_token } = data;
+
+        if (!access_token || !refresh_token) {
+          setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+          setState("invalid");
+          return;
+        }
+
+        await getWingsSupabase().auth.setSession({ access_token, refresh_token });
+        setState("form");
+      } catch {
+        clearTimeout(timeout);
         setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
         setState("invalid");
-      } else {
-        setState("form");
       }
     }
 
