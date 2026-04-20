@@ -20,13 +20,28 @@ function ResetPasswordContent() {
 
   useEffect(() => {
     async function verify() {
-      // Read token_hash from query params, fall back to hash fragment
-      let tokenHash = searchParams.get("token_hash") ?? "";
+      const hashParams = window.location.hash.length > 1
+        ? new URLSearchParams(window.location.hash.slice(1))
+        : new URLSearchParams();
 
-      if (!tokenHash && window.location.hash.length > 1) {
-        const hashParams = new URLSearchParams(window.location.hash.slice(1));
-        tokenHash = hashParams.get("token_hash") ?? hashParams.get("access_token") ?? "";
+      // ── Path A: tokens already in hash (Supabase implicit flow) ──────────
+      const hashAccessToken = hashParams.get("access_token");
+      const hashRefreshToken = hashParams.get("refresh_token");
+
+      if (hashAccessToken && hashRefreshToken) {
+        await getWingsSupabase().auth.setSession({
+          access_token: hashAccessToken,
+          refresh_token: hashRefreshToken,
+        });
+        setState("form");
+        return;
       }
+
+      // ── Path B: token_hash (Supabase PKCE flow) ───────────────────────────
+      const tokenHash =
+        searchParams.get("token_hash") ??
+        hashParams.get("token_hash") ??
+        "";
 
       if (!tokenHash) {
         setErrorMsg("This link is invalid. Please request a new password reset from the Wings app.");
