@@ -2,99 +2,39 @@
 
 export const dynamic = "force-dynamic";
 
-import { useEffect, useCallback, useState } from "react";
+import { useRef, useCallback, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
 import { getWingsSupabase } from "@/lib/supabase-wings";
 
-type PageState = "verifying" | "invalid" | "form" | "submitting" | "success";
+type PageState = "form" | "submitting" | "invalid" | "success";
+
+const SUPABASE_URL = "https://btvjimmubdgjxbfxeyxg.supabase.co";
+const SUPABASE_KEY = "sb_publishable_rvNhpqIiWEHHMAAm3nkdYg_ISkRKZkZ";
 
 function ResetPasswordContent() {
   const searchParams = useSearchParams();
-  const [state, setState] = useState<PageState>("verifying");
+  const [state, setState] = useState<PageState>("form");
   const [errorMsg, setErrorMsg] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [formError, setFormError] = useState("");
 
-  useEffect(() => {
-    async function verify() {
-      const hashParams = window.location.hash.length > 1
+  // Read token once from URL — never consume it until submit
+  const tokenHash = useRef<string>(
+    (() => {
+      if (typeof window === "undefined") return "";
+      const hash = window.location.hash.length > 1
         ? new URLSearchParams(window.location.hash.slice(1))
         : new URLSearchParams();
-
-      // ── Path A: tokens already in hash (Supabase implicit flow) ──────────
-      const hashAccessToken = hashParams.get("access_token");
-      const hashRefreshToken = hashParams.get("refresh_token");
-
-      if (hashAccessToken && hashRefreshToken) {
-        await getWingsSupabase().auth.setSession({
-          access_token: hashAccessToken,
-          refresh_token: hashRefreshToken,
-        });
-        setState("form");
-        return;
-      }
-
-      // ── Path B: token_hash (Supabase PKCE flow) ───────────────────────────
-      const tokenHash =
+      return (
         searchParams.get("token_hash") ??
-        hashParams.get("token_hash") ??
-        "";
-
-      if (!tokenHash) {
-        setErrorMsg("This link is invalid. Please request a new password reset from the Wings app.");
-        setState("invalid");
-        return;
-      }
-
-      const SUPABASE_URL = "https://btvjimmubdgjxbfxeyxg.supabase.co";
-      const SUPABASE_KEY = "sb_publishable_rvNhpqIiWEHHMAAm3nkdYg_ISkRKZkZ";
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-
-      try {
-        const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
-          method: "POST",
-          headers: {
-            "apikey": SUPABASE_KEY,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token_hash: tokenHash, type: "recovery" }),
-          signal: controller.signal,
-        });
-
-        clearTimeout(timeout);
-
-        if (!res.ok) {
-          setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
-          setState("invalid");
-          return;
-        }
-
-        const data = await res.json();
-        const { access_token, refresh_token } = data;
-
-        if (!access_token || !refresh_token) {
-          setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
-          setState("invalid");
-          return;
-        }
-
-        await getWingsSupabase().auth.setSession({ access_token, refresh_token });
-        setState("form");
-      } catch {
-        clearTimeout(timeout);
-        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
-        setState("invalid");
-      }
-    }
-
-    verify();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        hash.get("token_hash") ??
+        ""
+      );
+    })()
+  );
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,14 +49,64 @@ function ResetPasswordContent() {
       return;
     }
 
-    setState("submitting");
-    const { error } = await getWingsSupabase().auth.updateUser({ password });
+    const token = tokenHash.current;
+    if (!token) {
+      setErrorMsg("This link is invalid. Please request a new password reset from the Wings app.");
+      setState("invalid");
+      return;
+    }
 
-    if (error) {
-      setFormError(error.message || "Something went wrong. Please try again.");
-      setState("form");
-    } else {
+    setState("submitting");
+
+    // Step 1: verify token via direct fetch (never called on page load)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token_hash: token, type: "recovery" }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (!res.ok) {
+        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+        setState("invalid");
+        return;
+      }
+
+      const data = await res.json();
+      const { access_token, refresh_token } = data;
+
+      if (!access_token || !refresh_token) {
+        setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+        setState("invalid");
+        return;
+      }
+
+      // Step 2: establish session
+      await getWingsSupabase().auth.setSession({ access_token, refresh_token });
+
+      // Step 3: update password
+      const { error: updateError } = await getWingsSupabase().auth.updateUser({ password });
+
+      if (updateError) {
+        setFormError(updateError.message || "Something went wrong. Please try again.");
+        setState("form");
+        return;
+      }
+
       setState("success");
+    } catch {
+      clearTimeout(timeout);
+      setErrorMsg("This link has expired. Please request a new password reset from the Wings app.");
+      setState("invalid");
     }
   }, [password, confirm]);
 
@@ -153,45 +143,7 @@ function ResetPasswordContent() {
           className="animate-float object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.4)]"
         />
 
-        {/* ── VERIFYING ── */}
-        {state === "verifying" && (
-          <>
-            <div className="relative flex h-16 w-16 items-center justify-center">
-              <div
-                className="absolute inset-0 rounded-full animate-spin-slow"
-                style={{
-                  background: "conic-gradient(from 0deg, #3B82F6, #10B981, #EAB308, #3B82F6)",
-                  mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
-                  WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 3px), #fff 0)",
-                }}
-              />
-              <svg className="h-7 w-7 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-              </svg>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <h1 className="text-2xl font-bold text-white">Verifying your link<span className="animate-pulse">…</span></h1>
-              <p className="text-sm text-slate-400">Just a moment.</p>
-            </div>
-          </>
-        )}
-
-        {/* ── INVALID ── */}
-        {state === "invalid" && (
-          <>
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 border border-red-500/30">
-              <svg className="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-              </svg>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <h1 className="text-2xl font-bold text-white">Link expired</h1>
-              <p className="text-sm text-slate-400 leading-relaxed max-w-xs">{errorMsg}</p>
-            </div>
-          </>
-        )}
-
-        {/* ── FORM ── */}
+        {/* ── FORM / SUBMITTING ── */}
         {(state === "form" || state === "submitting") && (
           <>
             <div className="flex flex-col items-center gap-2">
@@ -250,6 +202,21 @@ function ResetPasswordContent() {
                 )}
               </button>
             </form>
+          </>
+        )}
+
+        {/* ── INVALID ── */}
+        {state === "invalid" && (
+          <>
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 border border-red-500/30">
+              <svg className="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <h1 className="text-2xl font-bold text-white">Link expired</h1>
+              <p className="text-sm text-slate-400 leading-relaxed max-w-xs">{errorMsg}</p>
+            </div>
           </>
         )}
 
