@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-3 lg:items-start">
             <a href="#" className="flex items-center gap-2.5">
               <Image
-                src="/wings-logo.svg"
+                src="/wings-logo.png"
                 alt="Wings"
                 width={32}
                 height={22}

@@ -22,7 +22,7 @@ export default function TermsOfServicePage() {
         <div className="mb-12 flex flex-col items-center gap-4 text-center">
           <Link href="/">
             <Image
-              src="/wings-logo.svg"
+              src="/wings-logo.png"
               alt="Wings"
               width={64}
               height={43}

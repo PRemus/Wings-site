@@ -91,7 +91,7 @@ function ConfirmContent() {
       <div className="relative z-10 flex flex-col items-center gap-8 max-w-sm w-full">
         {/* Logo */}
         <Image
-          src="/wings-logo.svg"
+          src="/wings-logo.png"
           alt="Wings"
           width={80}
           height={54}

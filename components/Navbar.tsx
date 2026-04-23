@@ -24,7 +24,7 @@ export default function Navbar() {
         {/* Logo */}
         <a href="#" className="flex items-center gap-2.5">
           <Image
-            src="/wings-logo.svg"
+            src="/wings-logo.png"
             alt="Wings logo"
             width={36}
             height={36}

@@ -129,7 +129,7 @@ export default function WaitlistPage() {
         <div className="mb-10 flex flex-col items-center gap-4 text-center">
           <Link href="/">
             <Image
-              src="/wings-logo.svg"
+              src="/wings-logo.png"
               alt="Wings"
               width={72}
               height={48}

@@ -67,7 +67,7 @@ export default function Hero() {
           {/* Logo */}
           <div className="mb-6 animate-float">
             <Image
-              src="/wings-logo.svg"
+              src="/wings-logo.png"
               alt="Wings"
               width={120}
               height={80}
