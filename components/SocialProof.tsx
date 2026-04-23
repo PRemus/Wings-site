@@ -1,43 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-
-const GOAL = 1000;
-
-function useWaitlistCount() {
-  const [count, setCount] = useState<number | null>(null);
-
-  useEffect(() => {
-    fetch("/api/waitlist-count")
-      .then((r) => r.json())
-      .then((d) => setCount(d.count ?? null))
-      .catch(() => {});
-  }, []);
-
-  return count;
-}
-
-function useCountUp(target: number | null, duration = 1200) {
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    if (target === null) return;
-    const to = target;
-    const start = performance.now();
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(Math.round(eased * to));
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }, [target, duration]);
-
-  return display;
-}
+import WaitlistProgress from "./WaitlistProgress";
 
 const testimonials = [
   {
@@ -65,9 +29,6 @@ const testimonials = [
 
 export default function SocialProof() {
   const sectionRef = useScrollReveal();
-  const count = useWaitlistCount();
-  const displayed = useCountUp(count);
-  const pct = count !== null ? Math.min((count / GOAL) * 100, 100) : null;
 
   return (
     <section
@@ -141,35 +102,12 @@ export default function SocialProof() {
         </div>
 
         {/* Waitlist counter */}
-        <div className="reveal mt-16 flex flex-col items-center gap-6 rounded-2xl border border-white/5 bg-white/[0.02] p-8 text-center">
-          <p className="text-sm font-medium uppercase tracking-widest text-slate-500">
+        <div className="reveal mt-16 rounded-2xl border border-white/5 bg-white/[0.02] p-8">
+          <p className="mb-6 text-center text-sm font-medium uppercase tracking-widest text-slate-500">
             Waitlist Progress
           </p>
-          <div className="flex items-end gap-4">
-            <span className="text-6xl font-black gradient-text tabular-nums">
-              {count === null ? "—" : `${displayed.toLocaleString()}+`}
-            </span>
-            <span className="mb-3 text-xl text-slate-400">people joined</span>
-          </div>
-          <div className="w-full max-w-md">
-            <div className="mb-2 flex justify-between text-xs text-slate-500">
-              <span>0</span>
-              <span className="text-slate-300 font-medium">
-                {count !== null ? `${count.toLocaleString()} joined` : "loading…"}
-              </span>
-              <span>1,000</span>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full transition-[width] duration-1000 ease-out"
-                style={{
-                  width: pct !== null ? `${pct}%` : "0%",
-                  background: "linear-gradient(90deg, #3B82F6, #10B981, #EAB308)",
-                }}
-              />
-            </div>
-          </div>
-          <p className="text-sm text-slate-500">
+          <WaitlistProgress />
+          <p className="mt-4 text-center text-sm text-slate-500">
             Goal: 1,000 waitlist members before launch
           </p>
         </div>

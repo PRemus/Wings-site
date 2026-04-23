@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import WaitlistProgress from "@/components/WaitlistProgress";
 
 const REFERRAL_OPTIONS = [
   { value: "instagram", label: "Instagram" },
@@ -54,6 +55,16 @@ export default function WaitlistPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [freshCount, setFreshCount] = useState<number | undefined>(undefined);
+
+  // After successful signup, fetch the updated count
+  useEffect(() => {
+    if (!submitted) return;
+    fetch("/api/waitlist-count")
+      .then((r) => r.json())
+      .then((d) => setFreshCount(d.count ?? undefined))
+      .catch(() => {});
+  }, [submitted]);
 
   const set = useCallback(<K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -153,6 +164,15 @@ export default function WaitlistPage() {
                 We&apos;ll be in touch soon with updates and early access news.
               </p>
             </div>
+
+            {/* Live progress after joining */}
+            <div className="w-full rounded-2xl border border-white/5 bg-white/[0.02] p-6">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-slate-500">
+                Waitlist progress
+              </p>
+              <WaitlistProgress initialCount={freshCount} />
+            </div>
+
             <Link
               href="/"
               className="text-sm text-slate-500 hover:text-slate-300 transition-colors"

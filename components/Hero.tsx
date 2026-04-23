@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import WaitlistProgress from "./WaitlistProgress";
 
 export default function Hero() {
   return (
@@ -106,9 +107,10 @@ export default function Hero() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </Link>
-            <p className="mt-3 text-xs text-slate-500">
+            <p className="mt-3 mb-5 text-xs text-slate-500">
               Free early access · No credit card required · Cancel anytime
             </p>
+            <WaitlistProgress />
           </div>
 
           {/* Social numbers */}
