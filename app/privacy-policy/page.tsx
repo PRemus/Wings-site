@@ -33,16 +33,6 @@ export default function PrivacyPolicyPage() {
             <h1 className="text-4xl font-extrabold tracking-tight text-white">Privacy Policy</h1>
             <p className="mt-2 text-sm text-slate-500">Last updated: April 2026</p>
           </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm text-slate-400 text-left w-full max-w-md">
-            <p className="font-semibold text-slate-300 mb-1">Legal entity</p>
-            <p>POENAR REMUS PERSOANĂ FIZICĂ AUTORIZATĂ</p>
-            <p>B-dul Bucureștii Noi, 136, et. Parter, ap. 5, Sector 1, București, România</p>
-            <p>
-              <a href="mailto:wings.app@yahoo.com" className="text-cyan-400 hover:text-cyan-300">wings.app@yahoo.com</a>
-              {" · "}
-              <a href="https://wingsapp.fit" className="text-cyan-400 hover:text-cyan-300">wingsapp.fit</a>
-            </p>
-          </div>
         </div>
 
         <div className="prose-legal">
@@ -130,7 +120,19 @@ export default function PrivacyPolicyPage() {
           </Section>
         </div>
 
-        <div className="mt-12 border-t border-white/5 pt-8 text-center">
+        {/* Legal entity — bottom */}
+        <div className="mt-12 rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-slate-400">
+          <p className="font-semibold text-slate-300 mb-1">Legal entity</p>
+          <p>POENAR REMUS PERSOANĂ FIZICĂ AUTORIZATĂ</p>
+          <p>B-dul Bucureștii Noi, 136, et. Parter, ap. 5, Sector 1, București, România</p>
+          <p className="mt-1">
+            <a href="mailto:wings.app@yahoo.com" className="text-cyan-400 hover:text-cyan-300">wings.app@yahoo.com</a>
+            {" · "}
+            <a href="https://wingsapp.fit" className="text-cyan-400 hover:text-cyan-300">wingsapp.fit</a>
+          </p>
+        </div>
+
+        <div className="mt-8 border-t border-white/5 pt-8 text-center">
           <Link href="/" className="text-sm text-slate-500 hover:text-slate-300 transition-colors">
             ← Back to wingsapp.fit
           </Link>
