@@ -10,11 +10,6 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   title: "Wings — Fly to Your Goals",
-  icons: {
-    icon: "/wings-logo.png",
-    shortcut: "/wings-logo.png",
-    apple: "/wings-logo.png",
-  },
   description:
     "Wings connects personal trainers and clients in one premium platform. No more WhatsApp chaos — just clean, structured coaching.",
   keywords: [

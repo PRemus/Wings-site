@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1565C0"/>
+      <stop offset="25%"  stop-color="#00ACC1"/>
+      <stop offset="55%"  stop-color="#43A047"/>
+      <stop offset="80%"  stop-color="#C6D000"/>
+      <stop offset="100%" stop-color="#FDD835"/>
+    </linearGradient>
+    <linearGradient id="centerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#FDD835"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark background -->
+  <rect width="512" height="512" rx="112" fill="#060B18"/>
+
+  <!-- Left wing -->
+  <path d="
+    M256 265
+    C230 248, 195 235, 160 228
+    C130 222,  95 220,  60 224
+    C80  232, 105 238, 122 244
+    C 95 237,  68 238,  45 248
+    C 70 258,  98 260, 118 256
+    C 90 256,  65 265,  48 278
+    C 75 273, 105 268, 128 262
+    L 256 265 Z
+  " fill="url(#wingGrad)"/>
+
+  <!-- Right wing (mirror) -->
+  <path d="
+    M256 265
+    C282 248, 317 235, 352 228
+    C382 222, 417 220, 452 224
+    C432 232, 407 238, 390 244
+    C417 237, 444 238, 467 248
+    C442 258, 414 260, 394 256
+    C422 256, 447 265, 464 278
+    C437 273, 407 268, 384 262
+    L 256 265 Z
+  " fill="url(#wingGrad)" transform="scale(-1,1) translate(-512,0)"/>
+
+  <!-- Center gold knot -->
+  <ellipse cx="256" cy="272" rx="22" ry="28" fill="url(#centerGrad)"/>
+  <ellipse cx="256" cy="260" rx="14" ry="10" fill="#FDD835"/>
+</svg>
