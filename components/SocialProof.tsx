@@ -1,6 +1,43 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+
+const GOAL = 1000;
+
+function useWaitlistCount() {
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/waitlist-count")
+      .then((r) => r.json())
+      .then((d) => setCount(d.count ?? null))
+      .catch(() => {});
+  }, []);
+
+  return count;
+}
+
+function useCountUp(target: number | null, duration = 1200) {
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (target === null) return;
+    const start = performance.now();
+    const from = 0;
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(Math.round(from + eased * (target - from)));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [target, duration]);
+
+  return display;
+}
 
 const testimonials = [
   {
@@ -28,6 +65,9 @@ const testimonials = [
 
 export default function SocialProof() {
   const sectionRef = useScrollReveal();
+  const count = useWaitlistCount();
+  const displayed = useCountUp(count);
+  const pct = count !== null ? Math.min((count / GOAL) * 100, 100) : null;
 
   return (
     <section
@@ -106,24 +146,25 @@ export default function SocialProof() {
             Waitlist Progress
           </p>
           <div className="flex items-end gap-4">
-            <span className="text-6xl font-black gradient-text">500+</span>
-            <span className="mb-3 text-xl text-slate-400">
-              trainers joined
+            <span className="text-6xl font-black gradient-text tabular-nums">
+              {count === null ? "—" : `${displayed.toLocaleString()}+`}
             </span>
+            <span className="mb-3 text-xl text-slate-400">people joined</span>
           </div>
           <div className="w-full max-w-md">
             <div className="mb-2 flex justify-between text-xs text-slate-500">
               <span>0</span>
-              <span className="text-slate-300 font-medium">500 joined</span>
+              <span className="text-slate-300 font-medium">
+                {count !== null ? `${count.toLocaleString()} joined` : "loading…"}
+              </span>
               <span>1,000</span>
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
               <div
-                className="h-full rounded-full transition-all"
+                className="h-full rounded-full transition-[width] duration-1000 ease-out"
                 style={{
-                  width: "50%",
-                  background:
-                    "linear-gradient(90deg, #3B82F6, #10B981, #EAB308)",
+                  width: pct !== null ? `${pct}%` : "0%",
+                  background: "linear-gradient(90deg, #3B82F6, #10B981, #EAB308)",
                 }}
               />
             </div>

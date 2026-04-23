@@ -126,7 +126,7 @@ export default function Hero() {
                 )}
               </div>
               <span>
-                <strong className="text-white">500+</strong> trainers waiting
+                <strong className="text-white">300+</strong> people waiting
               </span>
             </div>
             <div className="h-4 w-px bg-white/10" />
