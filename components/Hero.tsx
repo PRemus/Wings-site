@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import WaitlistForm from "./WaitlistForm";
 
 export default function Hero() {
   return (
@@ -95,27 +94,21 @@ export default function Hero() {
             </span>
           </p>
 
-          {/* Waitlist form */}
-          <div id="waitlist" className="w-full">
-            <WaitlistForm variant="hero" />
-            <p className="mt-3 text-xs text-slate-500">
-              Free early access · No credit card required · Cancel anytime
-            </p>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="h-px flex-1 bg-white/10" />
-              <span className="text-xs text-slate-600">or</span>
-              <div className="h-px flex-1 bg-white/10" />
-            </div>
+          {/* Waitlist CTA */}
+          <div id="waitlist" className="w-full max-w-md">
             <Link
               href="/waitlist"
-              className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
+              className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90"
               style={{ background: "linear-gradient(135deg, #0891b2, #10B981)" }}
             >
-              Join the waitlist — full signup
+              Join the waitlist
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </Link>
+            <p className="mt-3 text-xs text-slate-500">
+              Free early access · No credit card required · Cancel anytime
+            </p>
           </div>
 
           {/* Social numbers */}
