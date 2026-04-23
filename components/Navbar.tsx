@@ -59,8 +59,9 @@ export default function Navbar() {
 
         {/* CTA */}
         <a
-          href="#waitlist"
-          className="btn-gradient rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-lg"
+          href="/waitlist"
+          className="rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:opacity-90"
+          style={{ background: "linear-gradient(135deg, #0891b2, #10B981)" }}
         >
           Join Waitlist
         </a>
