@@ -23,14 +23,14 @@ function useCountUp(target: number | null, duration = 1200) {
 
   useEffect(() => {
     if (target === null) return;
+    const to = target;
     const start = performance.now();
-    const from = 0;
     function tick(now: number) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
       // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(Math.round(from + eased * (target - from)));
+      setDisplay(Math.round(eased * to));
       if (progress < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
