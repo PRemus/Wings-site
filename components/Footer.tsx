@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -62,12 +63,12 @@ export default function Footer() {
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
                 Legal
               </p>
-              <a href="/privacy" className="text-slate-400 transition-colors hover:text-white">
+              <Link href="/privacy-policy" className="text-slate-400 transition-colors hover:text-white">
                 Privacy Policy
-              </a>
-              <a href="/terms" className="text-slate-400 transition-colors hover:text-white">
+              </Link>
+              <Link href="/terms-of-service" className="text-slate-400 transition-colors hover:text-white">
                 Terms of Service
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -75,10 +76,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center gap-3 border-t border-white/5 pt-8 sm:flex-row sm:justify-between">
           <p className="text-xs text-slate-600">
-            © {new Date().getFullYear()} Wings. All rights reserved. ·{" "}
-            <a href="https://wingsapp.fit" className="hover:text-slate-400 transition-colors">
-              wingsapp.fit
-            </a>
+            © 2026 POENAR REMUS PERSOANĂ FIZICĂ AUTORIZATĂ ·{" "}
+            <Link href="/privacy-policy" className="hover:text-slate-400 transition-colors">Privacy</Link>
+            {" · "}
+            <Link href="/terms-of-service" className="hover:text-slate-400 transition-colors">Terms</Link>
           </p>
 
           {/* Social links */}

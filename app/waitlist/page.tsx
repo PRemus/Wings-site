@@ -304,7 +304,7 @@ export default function WaitlistPage() {
               error={errors.marketing_consent}
             >
               I agree to receive launch updates and news from Wings. You can unsubscribe at any time.{" "}
-              <Link href="/privacy" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+              <Link href="/privacy-policy" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
                 Privacy policy
               </Link>
               <span className="ml-1 text-red-400">*</span>
