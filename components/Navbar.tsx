@@ -61,6 +61,12 @@ export default function Navbar() {
           >
             Pricing
           </a>
+          <a
+            href="/login?redirect=/trainer/billing"
+            className="transition-colors hover:text-white"
+          >
+            Trainer login
+          </a>
         </div>
 
         {/* CTA */}

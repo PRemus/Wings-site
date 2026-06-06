@@ -1,36 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, LoaderCircle, Settings2 } from "lucide-react";
-import { getWingsSupabase } from "@/lib/supabase-wings";
+import {
+  createCheckoutSession,
+  createCustomerPortalSession,
+} from "@/lib/billing-functions";
+import {
+  NOT_TRAINER_MESSAGE,
+  SIGN_IN_REQUIRED_MESSAGE,
+} from "@/lib/trainer-auth";
 
 type PlanKey = "starter" | "pro";
 
-async function getAccessToken() {
-  const {
-    data: { session },
-  } = await getWingsSupabase().auth.getSession();
-
-  if (!session?.access_token) {
-    throw new Error(
-      "Sign in to your trainer account in Wings before choosing a plan."
-    );
+function billingErrorMessage(caught: unknown, fallback: string) {
+  if (caught instanceof Error) {
+    const error = caught as Error & { status?: number };
+    if (error.status === 404) {
+      return "No subscription yet. Choose a plan to start your 14-day free trial.";
+    }
+    return error.message;
   }
-
-  return session.access_token;
-}
-
-async function readResponse(response: Response) {
-  const data = (await response.json().catch(() => ({}))) as {
-    error?: string;
-    url?: string;
-  };
-
-  if (!response.ok || !data.url) {
-    throw new Error(data.error || "The billing service is unavailable.");
-  }
-
-  return data.url;
+  return fallback;
 }
 
 export function CheckoutButton({
@@ -40,6 +32,7 @@ export function CheckoutButton({
   planKey: PlanKey;
   featured?: boolean;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -48,20 +41,20 @@ export function CheckoutButton({
     setError("");
 
     try {
-      const accessToken = await getAccessToken();
-      const response = await fetch("/api/billing/checkout", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ plan_key: planKey }),
-      });
-
-      window.location.assign(await readResponse(response));
+      window.location.assign(await createCheckoutSession(planKey));
     } catch (caught) {
+      const message = billingErrorMessage(
+        caught,
+        "Unable to start checkout."
+      );
+
+      if (message === SIGN_IN_REQUIRED_MESSAGE) {
+        router.push("/login?redirect=/pricing");
+        return;
+      }
+
       setError(
-        caught instanceof Error ? caught.message : "Unable to start checkout."
+        message === NOT_TRAINER_MESSAGE ? NOT_TRAINER_MESSAGE : message
       );
       setLoading(false);
     }
@@ -100,6 +93,7 @@ export function ManageSubscriptionButton({
 }: {
   compact?: boolean;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -108,21 +102,19 @@ export function ManageSubscriptionButton({
     setError("");
 
     try {
-      const accessToken = await getAccessToken();
-      const response = await fetch("/api/billing/portal", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      window.location.assign(await readResponse(response));
+      window.location.assign(await createCustomerPortalSession());
     } catch (caught) {
-      setError(
-        caught instanceof Error
-          ? caught.message
-          : "Unable to open subscription management."
+      const message = billingErrorMessage(
+        caught,
+        "Unable to open subscription management."
       );
+
+      if (message === SIGN_IN_REQUIRED_MESSAGE) {
+        router.push("/login?redirect=/trainer/billing");
+        return;
+      }
+
+      setError(message);
       setLoading(false);
     }
   }

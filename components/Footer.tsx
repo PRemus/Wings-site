@@ -45,6 +45,9 @@ export default function Footer() {
               <Link href="/pricing" className="text-slate-400 transition-colors hover:text-white">
                 Pricing
               </Link>
+              <Link href="/trainer/billing" className="text-slate-400 transition-colors hover:text-white">
+                Trainer billing
+              </Link>
             </div>
 
             <div className="flex flex-col gap-3">
