@@ -31,10 +31,8 @@ export default function WaitlistProgress({ initialCount, className = "" }: Waitl
   const [count, setCount] = useState<number | null>(initialCount ?? null);
 
   useEffect(() => {
-    if (initialCount !== undefined) {
-      setCount(initialCount);
-      return;
-    }
+    if (initialCount !== undefined) return;
+
     fetch("/api/waitlist-count")
       .then((r) => r.json())
       .then((d) => setCount(d.count ?? null))

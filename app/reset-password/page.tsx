@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
-import { useEffect, useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -20,18 +20,12 @@ function ResetPasswordContent() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [formError, setFormError] = useState("");
-  const [tokenHash, setTokenHash] = useState("");
-
-  // Read token after mount so searchParams and window.location are both available
-  useEffect(() => {
-    const hashParams = window.location.hash.length > 1
-      ? new URLSearchParams(window.location.hash.slice(1))
-      : new URLSearchParams();
-    const token =
-      searchParams.get("token_hash") ??
-      hashParams.get("token_hash") ??
-      "";
-    setTokenHash(token);
+  const tokenHash = useMemo(() => {
+    const hashParams =
+      typeof window !== "undefined" && window.location.hash.length > 1
+        ? new URLSearchParams(window.location.hash.slice(1))
+        : new URLSearchParams();
+    return searchParams.get("token_hash") ?? hashParams.get("token_hash") ?? "";
   }, [searchParams]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {

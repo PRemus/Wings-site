@@ -33,15 +33,18 @@ export default function Footer() {
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">
                 Product
               </p>
-              <a href="#features" className="text-slate-400 transition-colors hover:text-white">
+              <Link href="/#features" className="text-slate-400 transition-colors hover:text-white">
                 Features
-              </a>
-              <a href="#how-it-works" className="text-slate-400 transition-colors hover:text-white">
+              </Link>
+              <Link href="/#how-it-works" className="text-slate-400 transition-colors hover:text-white">
                 How it works
-              </a>
-              <a href="#trainers" className="text-slate-400 transition-colors hover:text-white">
+              </Link>
+              <Link href="/#trainers" className="text-slate-400 transition-colors hover:text-white">
                 For Trainers
-              </a>
+              </Link>
+              <Link href="/pricing" className="text-slate-400 transition-colors hover:text-white">
+                Pricing
+              </Link>
             </div>
 
             <div className="flex flex-col gap-3">

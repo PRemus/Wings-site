@@ -81,6 +81,54 @@ In `app/layout.tsx`, uncomment the relevant block and add your IDs:
 
 ---
 
+## Trainer Billing
+
+The `/pricing` page offers Stripe-hosted subscription Checkout for authenticated
+trainer accounts:
+
+- Wings Starter: EUR 10/month, up to 5 active clients
+- Wings Pro: EUR 20/month, up to 30 active clients
+- 14-day free trial
+- Promotion codes enabled in Checkout
+
+The browser never receives the Stripe secret key or handles card data. It sends
+the trainer's Supabase access token to the Next.js billing routes, which verify
+the user and call the authenticated Supabase Edge Functions.
+
+### Vercel environment variables
+
+```env
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_ANON_KEY=your-publishable-key
+```
+
+### Supabase Edge Function secrets
+
+```env
+STRIPE_SECRET_KEY=sk_live_or_test_key
+STRIPE_PUBLISHABLE_KEY=pk_live_or_test_key
+STARTER_PRICE_ID=price_starter_monthly
+PRO_PRICE_ID=price_pro_monthly
+SITE_URL=https://wingsapp.fit
+```
+
+`STARTER_PRICE_ID` and `PRO_PRICE_ID` must be Stripe Price IDs beginning with
+`price_`; Product IDs beginning with `prod_` are not accepted.
+
+Deploy the functions:
+
+```bash
+supabase functions deploy create-checkout-session
+supabase functions deploy create-customer-portal-session
+```
+
+The Edge Function code enables `allow_promotion_codes`, so the existing
+`INES20` promotion code can be entered in Stripe Checkout. Configure and enable
+the Stripe Customer Portal in the Stripe Dashboard before using the
+"Manage subscription" action.
+
+---
+
 ## Deploy to wingsapp.fit
 
 ### Option A — Vercel (Recommended, free)

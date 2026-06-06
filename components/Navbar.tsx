@@ -55,6 +55,12 @@ export default function Navbar() {
           >
             For Trainers
           </a>
+          <a
+            href="/pricing"
+            className="transition-colors hover:text-white"
+          >
+            Pricing
+          </a>
         </div>
 
         {/* CTA */}
