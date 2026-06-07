@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 export default async function BillingSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ upgraded?: string }>;
+  searchParams: Promise<{ upgraded?: string; billing?: string }>;
 }) {
-  const { upgraded } = await searchParams;
+  const { upgraded, billing } = await searchParams;
   const isUpgrade = upgraded === "pro";
+  const isTrialUpgrade = isUpgrade && billing === "trial";
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 text-center">
@@ -47,8 +48,10 @@ export default async function BillingSuccessPage({
           {isUpgrade ? "Upgrade complete" : "Your free trial has started"}
         </h1>
         <p className="mt-3 leading-7 text-slate-400">
-          {isUpgrade
-            ? "Wings Pro is active. Your plan now supports up to 30 active clients."
+          {isTrialUpgrade
+            ? "Wings Pro is active with no charge today. Your trial continues until its original end date, then renews at \u20ac20/month."
+            : isUpgrade
+              ? "Wings Pro is active. Stripe charged only the prorated difference for the rest of this billing cycle."
             : "Your trainer subscription is ready. Open Wings to start managing your clients."}
         </p>
 

@@ -144,6 +144,9 @@ function PlanButton({
 
 export default function PricingPageContent() {
   const [currentPlan, setCurrentPlan] = useState<PlanKey | null>(null);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<string | null>(
+    null
+  );
   const [loadingPlan, setLoadingPlan] = useState(true);
   const [accountError, setAccountError] = useState("");
 
@@ -172,7 +175,10 @@ export default function PricingPageContent() {
             ? subscription.plan_key
             : null;
 
-        if (active) setCurrentPlan(plan);
+        if (active) {
+          setCurrentPlan(plan);
+          setSubscriptionStatus(plan ? subscription?.status ?? null : null);
+        }
       } catch (caught) {
         if (!active) return;
         setAccountError(
@@ -340,9 +346,9 @@ export default function PricingPageContent() {
                   <div className="mb-7 mt-7 min-h-16">
                     {isUpgrade && (
                       <p className="text-sm leading-6 text-emerald-100/80">
-                        Upgrade immediately. Stripe will charge only the
-                        prorated difference for the remainder of your billing
-                        cycle.
+                        {subscriptionStatus === "trialing"
+                          ? "Upgrade immediately with no charge today. Your current trial end date stays the same, then Wings Pro renews at \u20ac20/month."
+                          : "Upgrade immediately. Stripe will charge only the prorated difference for the remainder of your billing cycle."}
                       </p>
                     )}
                   </div>
