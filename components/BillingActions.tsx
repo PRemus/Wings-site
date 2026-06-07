@@ -28,9 +28,13 @@ function billingErrorMessage(caught: unknown, fallback: string) {
 export function CheckoutButton({
   planKey,
   featured = false,
+  label = "Start free trial",
+  loadingLabel = "Opening checkout...",
 }: {
   planKey: PlanKey;
   featured?: boolean;
+  label?: string;
+  loadingLabel?: string;
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -77,7 +81,7 @@ export function CheckoutButton({
         ) : (
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         )}
-        {loading ? "Opening checkout..." : "Start free trial"}
+        {loading ? loadingLabel : label}
       </button>
       {error && (
         <p className="mt-3 text-sm leading-5 text-red-300" role="alert">

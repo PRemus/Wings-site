@@ -5,10 +5,17 @@ import { Check, ExternalLink } from "lucide-react";
 import { ManageSubscriptionButton } from "@/components/BillingActions";
 
 export const metadata: Metadata = {
-  title: "Subscription started | Wings",
+  title: "Subscription updated | Wings",
 };
 
-export default function BillingSuccessPage() {
+export default async function BillingSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ upgraded?: string }>;
+}) {
+  const { upgraded } = await searchParams;
+  const isUpgrade = upgraded === "pro";
+
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-16 text-center">
       <div
@@ -37,11 +44,12 @@ export default function BillingSuccessPage() {
         </div>
 
         <h1 className="mt-7 text-3xl font-bold text-white">
-          Your free trial has started
+          {isUpgrade ? "Upgrade complete" : "Your free trial has started"}
         </h1>
         <p className="mt-3 leading-7 text-slate-400">
-          Your trainer subscription is ready. Open Wings to start managing your
-          clients.
+          {isUpgrade
+            ? "Wings Pro is active. Your plan now supports up to 30 active clients."
+            : "Your trainer subscription is ready. Open Wings to start managing your clients."}
         </p>
 
         <a
