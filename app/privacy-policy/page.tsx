@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
           </Link>
           <div>
             <h1 className="text-4xl font-extrabold tracking-tight text-white">Privacy Policy</h1>
-            <p className="mt-2 text-sm text-slate-500">Last updated: April 2026</p>
+            <p className="mt-2 text-sm text-slate-500">Last updated: June 2026</p>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
           </Section>
 
           <Section title="Cookies">
-            <p>The Wings mobile app does not use cookies. The wingsapp.fit website uses only strictly necessary cookies required for the site to function. No tracking or advertising cookies are used.</p>
+            <p>The Wings mobile app does not use browser cookies. The wingsapp.fit website does not set first-party cookies during ordinary browsing. It uses browser localStorage to keep authenticated trainers signed in, and Stripe may use cookies on its separately hosted Checkout and Customer Portal pages. No analytics or advertising cookies are active on wingsapp.fit. See the <Link href="/cookie-policy" className="text-cyan-400 hover:text-cyan-300">Cookie Policy</Link> for the current technical inventory.</p>
           </Section>
 
           <Section title="Age Requirement">

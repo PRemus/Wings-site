@@ -75,6 +75,9 @@ export default function Footer() {
               <Link href="/terms-of-service" className="text-slate-400 transition-colors hover:text-white">
                 Terms of Service
               </Link>
+              <Link href="/cookie-policy" className="text-slate-400 transition-colors hover:text-white">
+                Cookie Policy
+              </Link>
             </div>
           </div>
         </div>
@@ -86,6 +89,8 @@ export default function Footer() {
             <Link href="/privacy-policy" className="hover:text-slate-400 transition-colors">Privacy</Link>
             {" · "}
             <Link href="/terms-of-service" className="hover:text-slate-400 transition-colors">Terms</Link>
+            {" · "}
+            <Link href="/cookie-policy" className="hover:text-slate-400 transition-colors">Cookies</Link>
           </p>
 
           {/* Social links */}
