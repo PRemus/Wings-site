@@ -9,9 +9,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Wings — Fly to Your Goals",
+  title: "Wings | Coaching Platform for Personal Trainers",
   description:
-    "Wings connects personal trainers and clients in one premium platform. No more WhatsApp chaos — just clean, structured coaching.",
+    "Manage clients, create workouts and nutrition plans, schedule sessions, chat, and track progress from one all-in-one coaching app.",
   keywords: [
     "personal trainer app",
     "fitness coaching",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://wingsapp.fit",
-    title: "Wings — Fly to Your Goals",
+    title: "Wings | Coaching Platform for Personal Trainers",
     description:
-      "The premium platform connecting personal trainers and their clients. Workouts, chat, progress — all in one place.",
+      "The all-in-one coaching platform for personal trainers and their clients.",
     siteName: "Wings",
     images: [
       {
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wings — Fly to Your Goals",
+    title: "Wings | Coaching Platform for Personal Trainers",
     description:
-      "The premium platform connecting personal trainers and their clients.",
+      "Manage clients, workouts, nutrition, scheduling, chat, and progress from one app.",
     images: ["/og-image.png"],
   },
   robots: {

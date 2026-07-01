@@ -20,8 +20,7 @@ import {
   NOT_TRAINER_MESSAGE,
   getAuthenticatedTrainer,
 } from "@/lib/trainer-auth";
-
-type PlanKey = "starter" | "pro";
+import { trainerPlans as plans, type PlanKey } from "@/lib/plans";
 
 type SubscriptionRow = {
   plan_key: PlanKey | null;
@@ -32,39 +31,6 @@ const TERMINAL_SUBSCRIPTION_STATUSES = new Set([
   "canceled",
   "incomplete_expired",
 ]);
-
-const plans = [
-  {
-    key: "starter" as const,
-    name: "Wings Starter",
-    price: 10,
-    limit: "Up to 5 active clients",
-    description:
-      "A focused workspace for independent trainers building their client base.",
-    features: [
-      "Workout and nutrition planning",
-      "Progress tracking and check-ins",
-      "Trainer-client messaging",
-      "Client photos and measurements",
-    ],
-    featured: false,
-  },
-  {
-    key: "pro" as const,
-    name: "Wings Pro",
-    price: 20,
-    limit: "Up to 30 active clients",
-    description:
-      "More capacity for established trainers running a growing coaching business.",
-    features: [
-      "Everything in Starter",
-      "Manage up to 30 active clients",
-      "Organized coaching workflow",
-      "Built for higher client volume",
-    ],
-    featured: true,
-  },
-];
 
 function PlanButton({
   planKey,

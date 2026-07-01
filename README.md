@@ -160,21 +160,28 @@ wings-app/
 │   └── api/waitlist/
 │       └── route.ts        ← POST /api/waitlist (validates + saves)
 ├── components/
-│   ├── Navbar.tsx          ← Sticky nav with glass-on-scroll effect
-│   ├── Hero.tsx            ← Full-screen hero + CSS phone mockup
-│   ├── Features.tsx        ← 6-card feature grid
-│   ├── HowItWorks.tsx      ← 3-step onboarding process
-│   ├── TrainerSection.tsx  ← Before/After comparison + stats
-│   ├── SocialProof.tsx     ← Testimonials + waitlist counter
-│   ├── FinalCTA.tsx        ← Second waitlist CTA section
-│   ├── WaitlistForm.tsx    ← Reusable form (validation, loading, success)
-│   └── Footer.tsx          ← Links, legal, socials
+│   ├── Navbar.tsx          ← Sticky product navigation
+│   ├── Hero.tsx            ← Product positioning + preview slot
+│   ├── ProblemSolution.tsx ← Fragmented tools vs. Wings
+│   ├── HowItWorks.tsx      ← 3-step trainer onboarding
+│   ├── Features.tsx        ← 9-feature platform overview
+│   ├── DemoSection.tsx     ← Replaceable product video slots
+│   ├── ExperienceSection.tsx ← Trainer and client workflows
+│   ├── AppPreviewSection.tsx ← Replaceable mobile screenshots
+│   ├── PricingSection.tsx  ← Homepage plan comparison
+│   ├── FAQ.tsx             ← Trainer FAQ
+│   ├── FinalCTA.tsx        ← Free-trial conversion section
+│   ├── WaitlistProgress.tsx ← Waitlist counter
+│   ├── marketing/          ← Shared headings, reveals, media slots
+│   └── Footer.tsx          ← Product, support, legal, socials
 ├── hooks/
 │   └── useScrollReveal.ts  ← Scroll-triggered entrance animations
 ├── lib/
-│   └── supabase.ts         ← Supabase client (no-config fallback)
+│   ├── plans.ts            ← Shared trainer plan presentation data
+│   ├── supabase.ts         ← Waitlist Supabase client
+│   └── supabase-wings.ts   ← Wings auth and billing Supabase client
 └── public/
-    └── wings-logo.svg      ← Replace with your actual PNG logo
+    └── wings-logo.png      ← Production Wings logo
 ```
 
 ---
