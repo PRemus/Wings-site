@@ -565,13 +565,13 @@ export default function PrivacyPolicyPage() {
             >
               <p>
                 <strong className="text-slate-300">In Short:</strong> We do not
-                knowingly collect data from or market to children under 18 years
+                knowingly collect data from or market to children under 16 years
                 of age.
               </p>
               <p>
-                By using the Services, you represent that you are at least 18
+                By using the Services, you represent that you are at least 16
                 or are the parent or guardian of such a minor. If we learn
-                personal information from users under 18 has been collected, we
+                personal information from users under 16 has been collected, we
                 will deactivate the account and delete such data. Contact{" "}
                 <EmailLink email="wings.app@yahoo.com" />.
               </p>
