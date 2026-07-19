@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import Footer from "@/components/Footer";
 
 const title = "Privacy Policy | Wings";
 const description =
-  "Learn how Wings collects, uses, shares, stores, and protects personal information across the Wings app and wingsapp.fit.";
+  "Read the Wings Privacy Policy to learn how Wings collects, uses, shares, stores, and protects personal information.";
 
 export const metadata: Metadata = {
   title,
@@ -39,19 +40,19 @@ export const metadata: Metadata = {
 const contents = [
   "What Information Do We Collect?",
   "How Do We Process Your Information?",
-  "What Legal Bases Do We Rely On?",
-  "When and With Whom Do We Share Personal Information?",
-  "Cookies and Similar Technologies",
-  "International Data Transfers",
+  "What Legal Bases Do We Rely On to Process Your Personal Information?",
+  "When and With Whom Do We Share Your Personal Information?",
+  "Do We Use Cookies and Other Tracking Technologies?",
+  "Is Your Information Transferred Internationally?",
   "How Long Do We Keep Your Information?",
   "How Do We Keep Your Information Safe?",
-  "Information From Minors",
-  "Your Privacy Rights",
-  "Do-Not-Track Controls",
-  "United States Privacy Rights",
-  "Updates to This Notice",
-  "How to Contact Us",
-  "How to Review, Update, or Delete Your Data",
+  "Do We Collect Information From Minors?",
+  "What Are Your Privacy Rights?",
+  "Controls for Do-Not-Track Features",
+  "Do United States Residents Have Specific Privacy Rights?",
+  "Do We Make Updates to This Notice?",
+  "How Can You Contact Us About This Notice?",
+  "How Can You Review, Update, or Delete the Data We Collect From You?",
 ];
 
 export default function PrivacyPolicyPage() {
@@ -97,7 +98,7 @@ export default function PrivacyPolicyPage() {
                 Privacy Policy
               </h1>
               <p className="mt-2 text-sm text-slate-500">
-                Last updated: 27 June 2026
+                Last updated: July 19, 2026
               </p>
             </div>
           </header>
@@ -105,107 +106,91 @@ export default function PrivacyPolicyPage() {
           <div className="prose-legal">
             <section className="mb-10 space-y-4 text-sm leading-7 text-slate-400">
               <p>
-                This Privacy Notice for POENAR REMUS PERSOANĂ FIZICĂ
-                AUTORIZATĂ, doing business as Wings (&quot;Wings,&quot;
-                &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;), explains
-                how and why we access, collect, store, use, and share
-                (&quot;process&quot;) personal information when you use our
+                This Privacy Notice for POENAR REMUS PERSOANA FIZICA
+                AUTORIZATA, doing business as Wings (&quot;we,&quot;
+                &quot;us,&quot; or &quot;our&quot;), describes how and why we
+                might access, collect, store, use, and/or share
+                (&quot;process&quot;) your personal information when you use our
                 services (&quot;Services&quot;), including when you:
               </p>
               <BulletList
                 items={[
-                  <>
-                    download and use the Wings mobile application,{" "}
-                    <strong className="text-slate-300">
-                      Wings - Fly To Your Goals
-                    </strong>
-                    ;
-                  </>,
-                  <>
-                    use{" "}
-                    <a
-                      href="https://www.wingsapp.fit"
-                      className="text-cyan-400 hover:text-cyan-300"
-                    >
-                      wingsapp.fit
-                    </a>
-                    , including trainer login, subscriptions, billing, account
-                    confirmation, password reset, or the waitlist;
-                  </>,
-                  <>
-                    use Wings coaching features. Wings connects personal
-                    trainers and clients so trainers can manage workout plans,
-                    nutrition plans, schedules, communication, and progress,
-                    while clients can follow plans, log activity and meals,
-                    share media, and track their fitness journey; or
-                  </>,
-                  <>
-                    contact support, provide feedback, or opt in to Wings launch
-                    news and related communications.
-                  </>,
+                  "download and use our mobile application, Wings - Fly To Your Goals, or any other application of ours that links to this Privacy Notice;",
+                  "use Wings, a fitness coaching platform that connects personal trainers with their clients; or",
+                  "engage with us in other related ways, including any marketing or events.",
                 ]}
               />
               <p>
-                Reading this notice will help you understand your privacy
-                rights and choices. We are responsible for deciding how your
-                personal information is processed. If you do not agree with
-                this notice, please do not use the Services. Questions can be
-                sent to{" "}
+                Wings allows trainers to create and manage personalized workout
+                programs, nutrition plans, schedules, client progress, and paid
+                coaching packages. Clients can follow their plans, log meals and
+                workouts, communicate with their coach through in-app messaging,
+                upload progress photos, track their fitness journey, and
+                securely purchase coaching packages through the app. Wings also
+                offers subscription-based premium features for trainers, secure
+                in-app payment processing, and optional integrations with health
+                and fitness services.
+              </p>
+              <p>
+                Questions or concerns? Reading this Privacy Notice will help
+                you understand your privacy rights and choices. We are
+                responsible for making decisions about how your personal
+                information is processed. If you do not agree with our policies
+                and practices, please do not use our Services. If you still have
+                any questions or concerns, please contact us at{" "}
                 <EmailLink email="wings.app@yahoo.com" />.
               </p>
             </section>
 
             <PolicySection id="summary" title="Summary of Key Points">
-              <p>
-                <strong className="text-slate-300">
-                  What information do we process?
-                </strong>{" "}
-                Depending on the features you use, we process account and
-                profile information, age and fitness details supplied during
-                client onboarding, workout and nutrition records, progress
-                media, messages, subscription information, waitlist details,
-                and device or usage information.
-              </p>
-              <p>
-                <strong className="text-slate-300">
-                  Do we process sensitive information?
-                </strong>{" "}
-                Fitness, health, injury, medical-note, body-measurement,
-                wearable, and communication data may be sensitive under
-                applicable law. We process it only to provide requested
-                features, with consent where required, or as otherwise
-                permitted by law.
-              </p>
-              <p>
-                <strong className="text-slate-300">
-                  Do we receive information from third parties?
-                </strong>{" "}
-                We may receive limited information from Stripe, device health
-                services you connect, Firebase services used for app telemetry,
-                push-notification providers, and users connected to you through
-                a trainer-client or shared chat relationship. We do not obtain
-                profiles from public databases, data brokers, affiliate
-                programmes, marketing partners, or social-media platforms.
-              </p>
-              <p>
-                <strong className="text-slate-300">
-                  How do we use and share information?
-                </strong>{" "}
-                We process information to provide and secure Wings, support
-                trainer-client coaching, process subscriptions, communicate
-                with users, diagnose reliability problems, improve the
-                Services, and comply with law. We share information only with
-                relevant users, service providers, or authorities in the
-                situations described below.
-              </p>
-              <p>
-                <strong className="text-slate-300">
-                  What are your rights?
-                </strong>{" "}
-                Your rights depend on where you live and may include access,
-                correction, deletion, restriction, objection, portability, and
-                withdrawal of consent. Contact us to exercise them.
-              </p>
+              <KeyPoint question="What personal information do we process?">
+                When you visit, use, or navigate our Services, we may process
+                personal information depending on how you interact with us and
+                the Services, the choices you make, and the products and
+                features you use.
+              </KeyPoint>
+              <KeyPoint question="Do we process any sensitive personal information?">
+                Some of the information may be considered &quot;special&quot;
+                or &quot;sensitive&quot; in certain jurisdictions, for example
+                your racial or ethnic origins, sexual orientation, and religious
+                beliefs. We may process sensitive personal information when
+                necessary with your consent or as otherwise permitted by
+                applicable law.
+              </KeyPoint>
+              <KeyPoint question="Do we collect any information from third parties?">
+                No. We collect personal information directly from users when
+                they create an account or use our Services.
+              </KeyPoint>
+              <KeyPoint question="How do we process your information?">
+                We process your information to provide, improve, and administer
+                our Services, communicate with you, for security and fraud
+                prevention, and to comply with law. We may also process your
+                information for other purposes with your consent. We process
+                your information only when we have a valid legal reason to do
+                so.
+              </KeyPoint>
+              <KeyPoint question="In what situations and with which parties do we share personal information?">
+                We may share information in specific situations and with
+                specific third parties.
+              </KeyPoint>
+              <KeyPoint question="How do we keep your information safe?">
+                We have adequate organizational and technical processes and
+                procedures in place to protect your personal information.
+                However, no electronic transmission over the internet or
+                information storage technology can be guaranteed to be 100%
+                secure.
+              </KeyPoint>
+              <KeyPoint question="What are your rights?">
+                Depending on where you are located geographically, the
+                applicable privacy law may mean you have certain rights
+                regarding your personal information.
+              </KeyPoint>
+              <KeyPoint question="How do you exercise your rights?">
+                The easiest way to exercise your rights is by submitting a data
+                subject access request, or by contacting us. We will consider
+                and act upon any request in accordance with applicable data
+                protection laws.
+              </KeyPoint>
             </PolicySection>
 
             <nav
@@ -237,124 +222,155 @@ export default function PrivacyPolicyPage() {
               number="1"
               title="What Information Do We Collect?"
             >
-              <Subheading>Personal information you provide</Subheading>
+              <Subheading>Personal information you disclose to us</Subheading>
               <p>
-                We collect personal information that you voluntarily provide
-                when you register, complete a profile, connect with a trainer
-                or client, use coaching features, join the waitlist, purchase a
-                subscription, or contact us. Depending on the feature, this may
-                include:
+                <strong className="text-slate-300">In Short:</strong> We
+                collect personal information that you provide to us.
+              </p>
+              <p>
+                We collect personal information that you voluntarily provide to
+                us when you register on the Services, express an interest in
+                obtaining information about us or our products and Services,
+                when you participate in activities on the Services, or otherwise
+                when you contact us.
+              </p>
+              <p>
+                The personal information that we collect depends on the context
+                of your interactions with us and the Services, the choices you
+                make, and the products and features you use. The personal
+                information we collect may include:
               </p>
               <BulletList
                 items={[
-                  "name, email address, username, account identifiers, passwords, and authentication information;",
-                  "profile photos and profile information;",
-                  "age and gender supplied during client onboarding;",
-                  "height, weight, body measurements, body-fat information, fitness goals, activity level, training experience, injuries, dietary restrictions, and medical or coaching notes;",
-                  "workout plans, exercise logs, sets, repetitions, weights, personal records, schedules, and achievements;",
-                  "nutrition plans, meal logs, food entries, meal ratings, notes, and meal photos;",
-                  "progress measurements and progress photos;",
-                  "direct and group-chat messages, reactions, images, videos, audio, and files;",
-                  "wearable connection settings and workout summaries such as duration, calories, and heart-rate statistics when you enable the integration;",
-                  "notification preferences and push-notification tokens;",
-                  "subscription plan, status, billing period, and Stripe customer or subscription identifiers;",
-                  "support requests, bug reports, and feedback; and",
-                  "waitlist details, including name, email, trainer/client role, country, optional city, referral source, comments, marketing consent, and beta-testing interest.",
+                  "names",
+                  "phone numbers",
+                  "email addresses",
+                  "usernames",
+                  "passwords",
+                  "contact or authentication data",
+                  "profile photos",
+                  "progress photos",
+                  "body measurements, including height, weight, and body measurements",
+                  "workout and nutrition data",
+                  "messages and files shared through in-app chat",
+                  "health and fitness information",
+                  "age",
+                  "payment transaction information",
+                  "purchase and package history",
                 ]}
               />
-              <p>
-                Wings does not currently ask users to provide a phone number.
-                Registration asks users to confirm they are at least 16 but does
-                not ask for an exact date of birth. Client onboarding currently
-                asks for age and stores a date value derived from that selected
-                age so the app can calculate and display age; it is not an exact
-                birth date supplied by the user.
-              </p>
 
               <Subheading>Sensitive information</Subheading>
               <p>
-                Health and fitness information, body measurements, injuries,
-                medical notes, dietary details, wearable information, and the
-                contents of private communications may be considered sensitive
-                or special-category information in some jurisdictions. We
-                process this information when necessary to provide the features
-                you request, with your consent where required, or as otherwise
-                permitted by applicable law.
+                When necessary, with your consent or as otherwise permitted by
+                applicable law, we process health data.
               </p>
 
               <Subheading>Payment data</Subheading>
               <p>
-                Subscription payments are processed through Stripe-hosted
-                Checkout. Wings does not collect, receive, or store full payment
-                card numbers or card security codes. Stripe processes payment
-                details and returns limited subscription and transaction
-                information needed to operate your Wings subscription. See the{" "}
+                Payments are processed by{" "}
                 <a
                   href="https://stripe.com/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  Stripe Privacy Policy
+                  Stripe
                 </a>
+                . Wings does not collect or store payment card information.
+                Stripe collects and processes payment card details in accordance
+                with its Privacy Policy. Wings stores only payment transaction
+                information necessary to provide the Services, such as
+                transaction status, purchased package, and payment identifiers.
+              </p>
+              <p>
+                Payments made through the Wings app are processed securely by
+                Stripe. This includes trainer subscriptions and the purchase of
+                coaching packages from personal trainers. Wings does not collect
+                or store users&apos; payment card information. Payment card
+                details are collected and processed directly by Stripe in
+                accordance with Stripe&apos;s Privacy Policy.
+              </p>
+
+              <Subheading>Application data</Subheading>
+              <p>
+                If you use our application, we also may collect the following
+                information if you choose to provide us with access or
+                permission:
+              </p>
+              <BulletList
+                items={[
+                  "Mobile Device Access. We may request access or permission to certain features from your mobile device, including your mobile device's camera, storage, and other features. If you wish to change our access or permissions, you may do so in your device's settings.",
+                  "Mobile Device Data. We automatically collect device information such as your mobile device ID, model, manufacturer, operating system, version information, system configuration information, device and application identification numbers, browser type and version, hardware model, internet service provider and/or mobile carrier, and IP address or proxy server.",
+                  "Push Notifications. We may request to send you push notifications regarding your account or certain features of the application. If you wish to opt out from receiving these types of communications, you may turn them off in your device's settings.",
+                ]}
+              />
+              <p>
+                This information is primarily needed to maintain the security
+                and operation of our applications, for troubleshooting, and for
+                our internal analytics and reporting purposes. All personal
+                information that you provide to us must be true, complete, and
+                accurate, and you must notify us of any changes to such personal
+                information.
+              </p>
+
+              <Subheading>Information automatically collected</Subheading>
+              <p>
+                <strong className="text-slate-300">In Short:</strong> Some
+                information, such as your Internet Protocol (IP) address and/or
+                browser and device characteristics, is collected automatically
+                when you visit our Services.
+              </p>
+              <p>
+                We automatically collect certain information when you visit,
+                use, or navigate the Services. This information does not reveal
+                your specific identity, like your name or contact information,
+                but may include device and usage information, such as your IP
+                address, browser and device characteristics, operating system,
+                language preferences, referring URLs, device name, country,
+                location, information about how and when you use our Services,
+                and other technical information. This information is primarily
+                needed to maintain the security and operation of our Services,
+                and for our internal analytics and reporting purposes.
+              </p>
+              <p>
+                Like many businesses, we also collect information through
+                cookies and similar technologies. You can find out more in our{" "}
+                <Link
+                  href="/cookie-policy"
+                  className="text-cyan-400 hover:text-cyan-300"
+                >
+                  Cookie Notice
+                </Link>
                 .
               </p>
-
-              <Subheading>Application permissions and device data</Subheading>
-              <p>
-                If you choose to use the relevant features, the mobile app may
-                request permission to access:
-              </p>
+              <p>The information we collect includes:</p>
               <BulletList
                 items={[
-                  "the camera, for photos and barcode scanning;",
-                  "photos or media storage, for selecting, uploading, saving, and sharing media;",
-                  "the microphone, for audio messages;",
-                  "notifications, so Wings can deliver account and coaching updates; and",
-                  "Apple Health or compatible health services, for the specific workout, calorie, heart-rate, duration, or sleep information shown in the permission request.",
+                  "Log and Usage Data. Log and usage data is service-related, diagnostic, usage, and performance information our servers automatically collect when you access or use our Services and which we record in log files.",
+                  "Device Data. We collect device data such as information about your computer, phone, tablet, or other device you use to access the Services.",
+                  "Location Data. We collect location data such as information about your device's location, which can be either precise or imprecise. How much information we collect depends on the type and settings of the device you use to access the Services.",
                 ]}
               />
-              <p>
-                You can change device permissions in your operating-system
-                settings. The app and its reliability providers may also
-                process device model, operating system and app version,
-                installation identifiers, app-instance identifiers, language,
-                network information, crash details, performance measurements,
-                and feature or screen usage.
-              </p>
 
-              <Subheading>Automatically collected information</Subheading>
+              <Subheading>Information collected from other sources</Subheading>
               <p>
-                When you use the Services, our hosting, backend, security, and
-                mobile telemetry providers may automatically process IP
-                address, timestamps, browser or device characteristics,
-                operating system, referring URL, pages or app screens used,
-                session statistics, feature events, network-performance data,
-                and crash or diagnostic information.
+                <strong className="text-slate-300">In Short:</strong> We may
+                collect limited data from public databases, marketing partners,
+                and other outside sources.
               </p>
               <p>
-                Wings does not request precise GPS location permission and does
-                not collect precise GPS coordinates. Approximate country or
-                region may be derived from IP address or device analytics by
-                providers such as Firebase, Vercel, Stripe, or Supabase for
-                security, service delivery, diagnostics, and aggregate
-                analytics.
+                In order to enhance our ability to provide relevant marketing,
+                offers, and services to you and update our records, we may
+                obtain information about you from other sources, such as public
+                databases, joint marketing partners, affiliate programs, data
+                providers, and other third parties. This information includes
+                mailing addresses, job titles, email addresses, phone numbers,
+                intent data or user behavior data, Internet Protocol (IP)
+                addresses, social media profiles, social media URLs, and custom
+                profiles, for purposes of targeted advertising and event
+                promotion.
               </p>
-
-              <Subheading>Information received from other sources</Subheading>
-              <p>
-                We may receive personal information from the following sources
-                only when relevant to a feature you use:
-              </p>
-              <BulletList
-                items={[
-                  "Stripe, including subscription, invoice, customer, payment status, and fraud-prevention information;",
-                  "Apple Health or another supported device health source, after you grant access;",
-                  "Firebase Analytics, Crashlytics, Performance Monitoring, and Cloud Messaging, including app-instance, usage, diagnostic, performance, and delivery information;",
-                  "Expo, Apple Push Notification service, and Firebase Cloud Messaging for push-token registration and notification delivery; and",
-                  "trainers, clients, and members of shared chat groups who send invitations, plans, messages, files, or other information through Wings.",
-                ]}
-              />
             </PolicySection>
 
             <PolicySection
@@ -362,199 +378,126 @@ export default function PrivacyPolicyPage() {
               number="2"
               title="How Do We Process Your Information?"
             >
-              <p>We process personal information to:</p>
+              <p>
+                <strong className="text-slate-300">In Short:</strong> We
+                process your information to provide, improve, and administer our
+                Services, communicate with you, for security and fraud
+                prevention, and to comply with law. We may also process your
+                information for other purposes with your consent.
+              </p>
+              <p>
+                We process your personal information for a variety of reasons,
+                depending on how you interact with our Services, including:
+              </p>
               <BulletList
                 items={[
-                  "create, authenticate, secure, maintain, and delete user accounts;",
-                  "provide the trainer-client coaching platform and requested app or website features;",
-                  "create, assign, manage, and follow workout and nutrition plans;",
-                  "record workout, nutrition, body, wearable, and progress information;",
-                  "manage trainer-client relationships, schedules, invitations, and shared coaching workflows;",
-                  "enable direct messages, group chats, media sharing, and notifications;",
-                  "process subscriptions, trials, upgrades, billing status, and customer-portal requests;",
-                  "respond to questions, support requests, bug reports, and feedback;",
-                  "send account confirmation, password reset, administrative, support, and consented waitlist communications;",
-                  "monitor app usage trends through Firebase Analytics (Google) and diagnose crashes and performance through Firebase Crashlytics and Performance Monitoring;",
-                  "protect the Services, users, and payments from fraud, abuse, security incidents, and unauthorised access;",
-                  "improve usability, reliability, features, and support; and",
-                  "comply with legal obligations, resolve disputes, enforce terms, and protect legal or vital interests.",
+                  "to facilitate account creation and authentication and otherwise manage user accounts;",
+                  "to deliver and facilitate delivery of services to the user;",
+                  "to respond to user inquiries and offer support to users;",
+                  "to send administrative information to you;",
+                  "to fulfill and manage your orders, payments, returns, and exchanges made through the Services;",
+                  "to enable user-to-user communications;",
+                  "to request feedback;",
+                  "to protect our Services, including fraud monitoring and prevention;",
+                  "to identify usage trends;",
+                  "to save or protect an individual's vital interest;",
+                  "to create and manage personalized workout plans;",
+                  "to create and manage personalized nutrition plans;",
+                  "to track fitness progress, including body measurements, workout history, progress photos, and achievements;",
+                  "to sync health data from Apple Health when the user has granted permission;",
+                  "to manage trainer-client relationships;",
+                  "to process in-app payments and manage coaching package purchases;",
+                  "to manage connected payment accounts, including Stripe accounts, payouts, and payment-related features.",
                 ]}
               />
-              <p>
-                Wings custom Firebase telemetry is designed around limited
-                product events and screen names. We do not intentionally send
-                names, email addresses, message contents, photos, nutrition
-                entries, health or wearable values, or real Wings user IDs as
-                custom analytics-event parameters.
-              </p>
             </PolicySection>
 
             <PolicySection
               id="section-3"
               number="3"
-              title="What Legal Bases Do We Rely On?"
+              title="What Legal Bases Do We Rely On to Process Your Information?"
             >
               <p>
-                If you are in the European Economic Area, United Kingdom, or
-                another jurisdiction that requires a legal basis, we rely on
-                the following as applicable:
+                <strong className="text-slate-300">In Short:</strong> We only
+                process your personal information when we believe it is
+                necessary and we have a valid legal reason to do so under
+                applicable law, like with your consent, to comply with laws, to
+                provide you with services to enter into or fulfill our
+                contractual obligations, to protect your rights, or to fulfill
+                our legitimate business interests.
+              </p>
+              <p>
+                If you are located in the EU or UK, this section applies to
+                you. The General Data Protection Regulation (GDPR) and UK GDPR
+                require us to explain the valid legal bases we rely on. As such,
+                we may rely on:
               </p>
               <BulletList
                 items={[
-                  <>
-                    <strong className="text-slate-300">
-                      Performance of a contract:
-                    </strong>{" "}
-                    to create your account, provide Wings features, connect
-                    trainers and clients, and administer subscriptions.
-                  </>,
-                  <>
-                    <strong className="text-slate-300">Consent:</strong> for
-                    optional health integrations, device permissions,
-                    progress or media uploads where consent is required,
-                    waitlist marketing messages, and other processing based on
-                    your choice.
-                  </>,
-                  <>
-                    <strong className="text-slate-300">
-                      Legitimate interests:
-                    </strong>{" "}
-                    to secure and improve the Services, diagnose problems,
-                    understand aggregate use, prevent fraud, provide support,
-                    and operate an effective coaching platform where those
-                    interests are not overridden by your rights.
-                  </>,
-                  <>
-                    <strong className="text-slate-300">
-                      Legal obligations:
-                    </strong>{" "}
-                    to meet tax, accounting, consumer-protection,
-                    data-protection, law-enforcement, and other applicable
-                    requirements.
-                  </>,
-                  <>
-                    <strong className="text-slate-300">
-                      Vital interests:
-                    </strong>{" "}
-                    where processing is necessary to protect a person from a
-                    serious threat and another legal basis is unavailable.
-                  </>,
+                  "Consent",
+                  "Performance of a Contract",
+                  "Legitimate Interests, such as analyzing usage, diagnosing problems, preventing fraud, and understanding user experience",
+                  "Legal Obligations",
+                  "Vital Interests",
                 ]}
               />
-              <p>
-                You may withdraw consent at any time. Withdrawal does not
-                affect processing that was lawful before withdrawal or
-                processing based on another lawful ground.
-              </p>
             </PolicySection>
 
             <PolicySection
               id="section-4"
               number="4"
-              title="When and With Whom Do We Share Personal Information?"
+              title="When and With Whom Do We Share Your Personal Information?"
             >
               <p>
-                We disclose information only as necessary for the purposes
-                described in this notice. Service providers may process
-                different information depending on the feature used:
+                <strong className="text-slate-300">In Short:</strong> We may
+                share information in specific situations described in this
+                section and/or with the following third parties.
               </p>
-              <VendorList />
-
-              <Subheading>Relevant Wings users</Subheading>
-              <p>
-                Wings information is not public by default and is not visible
-                to all users. Depending on the feature:
-              </p>
+              <ProviderList />
+              <p>We also may need to share your personal information in these situations:</p>
               <BulletList
                 items={[
-                  "a client may share profile, coaching, workout, nutrition, progress, health, schedule, and communication information with their linked trainer;",
-                  "a trainer may share profile information, plans, schedules, notes intended for the client, and communications with linked clients;",
-                  "direct-chat content is visible to the sender and recipient; and",
-                  "group-chat content and member profile details are visible only to users authorised to access that group.",
+                  "Business Transfers, such as mergers, sale of company assets, financing, or acquisition;",
+                  "Other Users, including public areas of the Services.",
                 ]}
               />
-
-              <Subheading>Other permitted disclosures</Subheading>
-              <BulletList
-                items={[
-                  <>
-                    <strong className="text-slate-300">
-                      Business transfers:
-                    </strong>{" "}
-                    information may be transferred in connection with a merger,
-                    financing, reorganisation, sale of assets, or acquisition,
-                    subject to applicable law.
-                  </>,
-                  <>
-                    <strong className="text-slate-300">
-                      Legal and safety reasons:
-                    </strong>{" "}
-                    information may be disclosed when reasonably necessary to
-                    comply with law, respond to lawful process, protect rights
-                    or safety, investigate misuse, or enforce our agreements.
-                  </>,
-                ]}
-              />
-              <p>
-                Wings does not sell personal information and does not disclose
-                it to data brokers, affiliate programmes, or advertising
-                partners.
-              </p>
             </PolicySection>
 
             <PolicySection
               id="section-5"
               number="5"
-              title="Cookies and Similar Technologies"
+              title="Do We Use Cookies and Other Tracking Technologies?"
             >
               <p>
-                Wings does not deliberately set first-party cookies on
-                wingsapp.fit during ordinary browsing. The website uses browser
-                localStorage to retain a Supabase Auth session after a trainer
-                signs in or a successful password reset establishes a session.
-                Public pages and the waitlist do not require a stored login
-                session.
+                <strong className="text-slate-300">In Short:</strong> We may
+                use cookies and other tracking technologies to collect and store
+                your information.
               </p>
               <p>
-                Wings uses Stripe-hosted Checkout and the Stripe Customer
-                Portal rather than embedding card fields on wingsapp.fit.
-                Stripe may use cookies and similar technologies on
-                Stripe-controlled domains for secure sessions, payment
-                processing, preferences, and fraud prevention.
-              </p>
-              <p>
-                Firebase Analytics (Google), Crashlytics, and Performance
-                Monitoring operate in the native mobile app using app-instance,
-                installation, device, diagnostic, and performance identifiers;
-                they are not website cookies and Firebase Analytics is not
-                installed on wingsapp.fit. Learn more in the{" "}
-                <a
-                  href="https://policies.google.com/privacy"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                We may use cookies and similar tracking technologies, like web
+                beacons and pixels. We also permit third parties and service
+                providers to use online tracking technologies for analytics and
+                advertising. To the extent these are deemed a
+                &quot;sale&quot; or &quot;sharing&quot; under applicable US
+                state laws, you can opt out as described in section 12. See our{" "}
+                <Link
+                  href="/cookie-policy"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  Google Privacy Policy
-                </a>{" "}
-                and{" "}
-                <a
-                  href="https://firebase.google.com/support/privacy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cyan-400 hover:text-cyan-300"
-                >
-                  Firebase Privacy and Security documentation
-                </a>
+                  Cookie Notice
+                </Link>
                 .
               </p>
               <p>
-                The complete, implementation-specific website storage
-                inventory is available in our{" "}
+                Google Analytics: We may share your information with Google
+                Analytics. To opt out, visit{" "}
                 <a
-                  href="https://www.wingsapp.fit/cookie-policy"
+                  href="https://tools.google.com/dlpage/gaoptout"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  Cookie Policy
+                  Google Analytics Opt-out Browser Add-on
                 </a>
                 .
               </p>
@@ -563,25 +506,20 @@ export default function PrivacyPolicyPage() {
             <PolicySection
               id="section-6"
               number="6"
-              title="International Data Transfers"
+              title="Is Your Information Transferred Internationally?"
             >
               <p>
-                Wings is operated from Romania. The production Supabase project
-                is hosted in the United Kingdom. Other providers, including
-                Stripe, Firebase/Google, Expo, Apple, Resend, Vercel, USDA
-                FoodData Central, and Open Food Facts, may process information
-                in the United States, the European Economic Area, the United
-                Kingdom, or other locations where they or their subprocessors
-                operate.
+                <strong className="text-slate-300">In Short:</strong> We may
+                transfer, store, and process your information in countries other
+                than your own.
               </p>
               <p>
-                Where personal information is transferred from the EEA, UK, or
-                Switzerland to a country without an applicable adequacy
-                decision, we rely on appropriate safeguards required by law,
-                which may include the European Commission&apos;s Standard
-                Contractual Clauses, the UK International Data Transfer
-                Addendum, contractual protections with service providers, and
-                supplementary security measures.
+                Our servers are located in Germany. Your information may be
+                transferred to and processed in facilities of third parties,
+                including facilities in the United States and other countries.
+                We have implemented measures such as the European
+                Commission&apos;s Standard Contractual Clauses to protect your
+                personal information for international transfers.
               </p>
             </PolicySection>
 
@@ -591,23 +529,15 @@ export default function PrivacyPolicyPage() {
               title="How Long Do We Keep Your Information?"
             >
               <p>
-                We retain personal information only for as long as reasonably
-                necessary for the purposes described in this notice, including:
+                <strong className="text-slate-300">In Short:</strong> We keep
+                your information for as long as necessary to fulfill the
+                purposes outlined in this Privacy Notice unless otherwise
+                required by law.
               </p>
-              <BulletList
-                items={[
-                  "account, profile, coaching, workout, nutrition, progress, wearable, media, and communication data while the account or relevant coaching relationship remains active;",
-                  "waitlist information until you unsubscribe, ask us to delete it, or it is no longer needed for the launch purpose;",
-                  "support and security records for as long as needed to resolve the request, prevent abuse, or establish and defend legal claims;",
-                  "subscription, transaction, tax, accounting, and fraud-prevention records for periods required or permitted by law; and",
-                  "analytics, crash, performance, notification-delivery, and infrastructure logs according to the applicable provider's retention settings and our operational needs.",
-                ]}
-              />
               <p>
-                When information is no longer needed, we delete or anonymise it.
-                If immediate deletion is not technically possible, such as in
-                protected backups, we isolate the information from further use
-                until deletion occurs through the normal retention cycle.
+                When we have no ongoing legitimate business need to process your
+                personal information, we will delete or anonymize it, or
+                securely store and isolate it until deletion is possible.
               </p>
             </PolicySection>
 
@@ -617,43 +547,32 @@ export default function PrivacyPolicyPage() {
               title="How Do We Keep Your Information Safe?"
             >
               <p>
-                We use reasonable technical and organisational safeguards
-                designed to protect personal information, including encrypted
-                network connections, managed authentication, role-based and
-                row-level access controls, protected storage rules, restricted
-                service credentials, and security monitoring.
+                <strong className="text-slate-300">In Short:</strong> We aim to
+                protect your personal information through a system of
+                organizational and technical security measures.
               </p>
               <p>
-                No electronic transmission or storage system is completely
-                secure. We cannot guarantee that unauthorised third parties will
-                never defeat safeguards. Use a strong, unique password, protect
-                your device, sign out of shared browsers, and contact us
-                promptly if you suspect unauthorised access.
+                Despite our safeguards, no electronic transmission or storage
+                technology can be guaranteed 100% secure. Transmission of
+                personal information is at your own risk.
               </p>
             </PolicySection>
 
             <PolicySection
               id="section-9"
               number="9"
-              title="Information From Minors"
+              title="Do We Collect Information From Minors?"
             >
               <p>
-                We do not knowingly collect personal information from or market
-                to children under 16 years of age. During registration, users
-                must actively confirm that they are at least 16.
+                <strong className="text-slate-300">In Short:</strong> We do not
+                knowingly collect data from or market to children under 18 years
+                of age.
               </p>
               <p>
-                Registration does not request an exact date of birth. The
-                client onboarding flow may later request age for coaching and
-                age-display purposes and stores a date value derived from the
-                selected age rather than an exact birth date provided by the
-                user.
-              </p>
-              <p>
-                If we learn that we collected personal information from a child
-                under 16, we will take reasonable steps to delete it as soon as
-                practicable. If you believe a child under 16 has provided
-                information to Wings, contact{" "}
+                By using the Services, you represent that you are at least 18
+                or are the parent or guardian of such a minor. If we learn
+                personal information from users under 18 has been collected, we
+                will deactivate the account and delete such data. Contact{" "}
                 <EmailLink email="wings.app@yahoo.com" />.
               </p>
             </PolicySection>
@@ -661,186 +580,180 @@ export default function PrivacyPolicyPage() {
             <PolicySection
               id="section-10"
               number="10"
-              title="Your Privacy Rights"
+              title="What Are Your Privacy Rights?"
             >
               <p>
-                Depending on where you live, you may have the right to request:
+                <strong className="text-slate-300">In Short:</strong> Depending
+                on your state of residence in the US or region, including the
+                EEA, UK, and Switzerland, you have rights over your personal
+                information. You may review, change, or terminate your account
+                at any time.
               </p>
-              <BulletList
-                items={[
-                  "access to and a copy of your personal information;",
-                  "correction of inaccurate or incomplete information;",
-                  "deletion of your personal information;",
-                  "restriction of or objection to certain processing;",
-                  "portability of information you provided in a structured, commonly used format;",
-                  "withdrawal of consent at any time where processing relies on consent;",
-                  "information about recipients or categories of recipients; and",
-                  "a complaint to the competent data-protection authority.",
-                ]}
-              />
               <p>
-                Rights are not absolute and may be limited by applicable law.
-                We may need to verify your identity before completing a request.
-                We will respond within the period required by law.
+                Rights in the EEA, UK, and Switzerland may include access or
+                copy, rectification or erasure, restriction of processing, data
+                portability, and objection to automated decision-making. Contact{" "}
+                <EmailLink email="wings.app@yahoo.com" />.
               </p>
-
-              <Subheading>Account information and deletion</Subheading>
               <p>
-                You can update available profile information in the app. You
-                can also delete your account through{" "}
-                <strong className="text-slate-300">
-                  Settings → Account &amp; Data → Delete my Account
-                </strong>{" "}
-                or contact us for assistance. Some limited records may be
-                retained where required for legal, accounting, fraud,
-                security, or dispute-resolution purposes.
-              </p>
-
-              <Subheading>European complaints</Subheading>
-              <p>
-                If you are in the EEA or UK and believe we process your
-                information unlawfully, you may complain to your local
-                supervisory authority. In Romania, you can contact the National
-                Supervisory Authority for Personal Data Processing (ANSPDCP) at{" "}
+                Complaints in the UK are acknowledged within 30 days,
+                investigated without delay, and you will be kept informed of
+                progress. If you are unhappy with our final response, you may
+                refer the matter to the Information Commissioner&apos;s Office
+                at{" "}
                 <a
-                  href="https://www.dataprotection.ro/"
+                  href="https://ico.org.uk/make-a-complaint"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  dataprotection.ro
+                  ico.org.uk/make-a-complaint
                 </a>
-                . Swiss residents may contact the Federal Data Protection and
-                Information Commissioner.
+                , Helpline 0303 123 1113, Wycliffe House, Water Lane, Wilmslow,
+                Cheshire, SK9 5AF.
               </p>
               <p>
-                For browser-storage controls, see the{" "}
+                You can withdraw consent at any time by contacting us. This does
+                not affect prior lawful processing.
+              </p>
+              <p>
+                You can log in to account settings to update information, or
+                contact us. Upon termination request, we deactivate or delete
+                your account, but may retain some information for fraud
+                prevention, troubleshooting, investigations, or legal
+                compliance.
+              </p>
+              <p>
+                Most browsers accept cookies by default. You can set your
+                browser to remove or reject cookies, which may affect certain
+                features. See our{" "}
                 <Link
                   href="/cookie-policy"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  Cookie Policy
+                  Cookie Notice
                 </Link>
-                . Clearing wingsapp.fit localStorage signs the browser out but
-                does not delete the Wings account.
+                .
               </p>
             </PolicySection>
 
             <PolicySection
               id="section-11"
               number="11"
-              title="Do-Not-Track Controls"
+              title="Controls for Do-Not-Track Features"
             >
               <p>
-                Some browsers and mobile systems provide a Do-Not-Track
-                (&quot;DNT&quot;) signal. No uniform standard for interpreting
-                DNT signals has been adopted, so Wings does not currently
-                respond to them. Wings does not use advertising or
-                social-media tracking scripts on wingsapp.fit. If a binding DNT
-                standard becomes applicable, we will update this notice and our
-                practices.
+                We do not currently respond to DNT browser signals, as there is
+                no uniform technology standard for recognizing them yet.
               </p>
             </PolicySection>
 
             <PolicySection
               id="section-12"
               number="12"
-              title="United States Privacy Rights"
+              title="Do United States Residents Have Specific Privacy Rights?"
             >
               <p>
-                Residents of US states with comprehensive privacy laws may have
-                rights to know whether we process personal information, access
-                it, correct inaccuracies, request deletion, obtain a portable
-                copy, and appeal certain decisions. Available rights and
-                exceptions vary by state.
+                <strong className="text-slate-300">In Short:</strong> If you
+                are a resident of California, Colorado, Connecticut, Delaware,
+                Florida, Indiana, Iowa, Kentucky, Maryland, Minnesota, Montana,
+                Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island,
+                Tennessee, Texas, Utah, or Virginia, you may have the right to
+                request access to and receive details about the personal
+                information we maintain about you and how we have processed it,
+                correct inaccuracies, get a copy of, or delete your personal
+                information.
               </p>
-
-              <Subheading>Categories of personal information</Subheading>
+              <Subheading>
+                Categories of Personal Information Collected in the Past 12
+                Months
+              </Subheading>
               <DataCategoryTable />
               <p>
-                We retain these categories as described in section 7. We do not
-                sell personal information and have not sold personal
-                information in the preceding twelve months. We disclose
-                information to service providers and relevant Wings users for
-                the operational purposes described in section 4.
-              </p>
-
-              <Subheading>Exercising US privacy rights</Subheading>
-              <p>
-                Submit a request by emailing{" "}
-                <EmailLink email="wings.app@yahoo.com" /> or by using the
-                in-app support feature. You may use an authorised agent where
-                state law permits. We may ask for information reasonably needed
-                to verify your identity and, for an agent, proof of authority.
-                Verification information will be used only for the request,
-                security, and fraud-prevention purposes.
+                Categories A, B, C, D, F, G, H, and L are retained as long as
+                the user has an account with us.
               </p>
               <p>
-                If we decline a request and your state grants an appeal right,
-                you may appeal by emailing the same address. We will explain
-                our decision and provide information about further complaint
-                options required by your state.
+                We may disclose personal information to service providers under
+                written contract. We have not sold or shared personal
+                information for a business or commercial purpose in the
+                preceding 12 months, but have disclosed categories A, B, C, D,
+                F, G, H, and L to third parties for business or commercial
+                purposes.
               </p>
-
-              <Subheading>California Shine the Light</Subheading>
               <p>
-                California Civil Code section 1798.83 allows certain California
-                residents to request information about disclosures to third
-                parties for their direct-marketing purposes. Wings does not
-                disclose personal information to third parties for their own
-                direct marketing. Eligible residents may still submit a written
-                request using the contact information below.
+                Your rights under US state laws may include the right to know,
+                access, correct, delete, obtain a copy, non-discrimination, opt
+                out of targeted advertising, sale, or profiling, and depending
+                on your state, access categories of data processed, obtain lists
+                of third-party categories or specific third parties data was
+                disclosed or sold to, review or correct profiling, limit use of
+                sensitive data, and opt out of biometric or facial recognition
+                data collection.
+              </p>
+              <p>
+                To exercise your rights, contact{" "}
+                <EmailLink email="wings.app@yahoo.com" />, use in-app support
+                or bug reporting, or submit a data subject access request.
+                Authorized agents may submit requests with proof of
+                authorization. Identity verification will be required. Appeals
+                for denied requests can be sent to{" "}
+                <EmailLink email="wings.app@yahoo.com" />. If denied, you may
+                complain to your state attorney general.
+              </p>
+              <p>
+                California residents may request, once a year and free of
+                charge, information about categories of personal information
+                disclosed to third parties for direct marketing purposes.
               </p>
             </PolicySection>
 
             <PolicySection
               id="section-13"
               number="13"
-              title="Updates to This Notice"
+              title="Do We Make Updates to This Notice?"
             >
               <p>
-                We may update this notice to reflect changes to the Services,
-                providers, technology, or law. The revised version will show a
-                new &quot;Last updated&quot; date. If a change is material, we
-                may provide additional notice through the app, website, or
-                email as appropriate.
+                <strong className="text-slate-300">In Short:</strong> Yes, we
+                will update this notice as necessary to stay compliant with
+                relevant laws. The updated version will be indicated by the
+                revised date. Material changes will be notified via prominent
+                notice or direct notification.
               </p>
             </PolicySection>
 
             <PolicySection
               id="section-14"
               number="14"
-              title="How to Contact Us"
+              title="How Can You Contact Us About This Notice?"
             >
               <p>
-                For questions, comments, or privacy requests, email{" "}
-                <EmailLink email="wings.app@yahoo.com" /> or write to:
+                Email: <EmailLink email="wings.app@yahoo.com" />
               </p>
+              <p>Post:</p>
               <address className="not-italic text-slate-300">
-                POENAR REMUS PERSOANĂ FIZICĂ AUTORIZATĂ
+                POENAR REMUS PERSOANA FIZICA AUTORIZATA
                 <br />
-                B-dul Bucureștii Noi, 136, et. Parter, ap. 5, Sector 1
+                B-dul Bucurestii Noi, 136, et. Parter, ap. 5, Sector 1
                 <br />
-                București 012366
+                Bucuresti, Bucuresti 012366
                 <br />
-                România
+                Romania
               </address>
             </PolicySection>
 
             <PolicySection
               id="section-15"
               number="15"
-              title="How to Review, Update, or Delete Your Data"
+              title="How Can You Review, Update, or Delete the Data We Collect From You?"
             >
               <p>
-                Depending on applicable law, you may request access to the
-                personal information we hold, details about how it has been
-                processed, correction, deletion, portability, restriction, or
-                withdrawal of consent. You may update available information or
-                delete your account in the Wings app, use in-app support, or
-                email <EmailLink email="wings.app@yahoo.com" />. Please describe
-                the request and the account email involved so we can verify and
-                respond securely.
+                You may have the right to request access to the personal
+                information we collect, details on processing, correct
+                inaccuracies, or delete personal information, and withdraw
+                consent. To request review, update, or deletion, please fill out
+                and submit a data subject access request or contact{" "}
+                <EmailLink email="wings.app@yahoo.com" />.
               </p>
             </PolicySection>
           </div>
@@ -852,25 +765,6 @@ export default function PrivacyPolicyPage() {
             >
               Back to wingsapp.fit
             </Link>
-          </div>
-
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] px-5 py-4 text-sm leading-6 text-slate-400">
-            <p className="mb-1 font-semibold text-slate-300">Legal entity</p>
-            <p>POENAR REMUS PERSOANĂ FIZICĂ AUTORIZATĂ</p>
-            <p>
-              B-dul Bucureștii Noi, 136, et. Parter, ap. 5, Sector 1,
-              București, România
-            </p>
-            <p className="mt-1">
-              <EmailLink email="wings.app@yahoo.com" />
-              {" · "}
-              <a
-                href="https://www.wingsapp.fit"
-                className="text-cyan-400 hover:text-cyan-300"
-              >
-                wingsapp.fit
-              </a>
-            </p>
           </div>
         </div>
       </main>
@@ -888,7 +782,7 @@ function PolicySection({
   id: string;
   number?: string;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <section id={id} className="mb-12 scroll-mt-8">
@@ -902,7 +796,7 @@ function PolicySection({
   );
 }
 
-function Subheading({ children }: { children: React.ReactNode }) {
+function Subheading({ children }: { children: ReactNode }) {
   return (
     <h3 className="pt-2 text-sm font-semibold uppercase text-slate-300">
       {children}
@@ -910,7 +804,21 @@ function Subheading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function BulletList({ items }: { items: React.ReactNode[] }) {
+function KeyPoint({
+  question,
+  children,
+}: {
+  question: string;
+  children: ReactNode;
+}) {
+  return (
+    <p>
+      <strong className="text-slate-300">{question}</strong> {children}
+    </p>
+  );
+}
+
+function BulletList({ items }: { items: ReactNode[] }) {
   return (
     <ul className="space-y-2">
       {items.map((item, index) => (
@@ -934,71 +842,32 @@ function EmailLink({ email }: { email: string }) {
   );
 }
 
-function VendorList() {
-  const vendors = [
-    [
-      "Supabase",
-      "Backend database, authentication, Edge Functions, and file storage.",
-      "https://supabase.com/privacy",
-    ],
-    [
-      "Stripe",
-      "Trainer subscription Checkout, billing, invoices, customer portal, and payment fraud prevention.",
-      "https://stripe.com/privacy",
-    ],
-    [
-      "Firebase Analytics (Google)",
-      "Native mobile-app usage events, app-instance identifiers, session statistics, device information, and approximate geolocation.",
-      "https://policies.google.com/privacy",
-    ],
-    [
-      "Firebase Crashlytics and Performance Monitoring",
-      "Crash, device, app-version, installation, network, and performance diagnostics for the native mobile app.",
-      "https://firebase.google.com/support/privacy",
-    ],
-    [
-      "Expo Push Notifications, Firebase Cloud Messaging, and Apple Push Notification service",
-      "Push-token registration, notification routing, delivery, and delivery diagnostics.",
-      "https://expo.dev/privacy",
-    ],
-    [
-      "Apple Health and device health services",
-      "Optional health and workout data access initiated by the user through device permission controls.",
-      "https://www.apple.com/legal/privacy/",
-    ],
-    [
-      "USDA FoodData Central and Open Food Facts",
-      "Ingredient, barcode, and nutrition-information lookup. Search terms or barcodes are sent through Wings server functions.",
-      "https://fdc.nal.usda.gov/",
-    ],
-    [
-      "Resend",
-      "Delivery of support and transactional email.",
-      "https://resend.com/legal/privacy-policy",
-    ],
-    [
-      "Vercel",
-      "Hosting, content delivery, server functions, security, and operational logs for wingsapp.fit.",
-      "https://vercel.com/legal/privacy-policy",
-    ],
+function ProviderList() {
+  const providers = [
+    ["Invoice and Billing", "Stripe"],
+    ["Web and Mobile Analytics", "Google Analytics for Firebase"],
+    ["Website Performance Monitoring", "Firebase Crash Reporting"],
+    ["Backend, database, authentication and file storage", "Supabase"],
+    ["Push notifications", "Expo Push Notifications"],
+    ["Push notification delivery", "Firebase Cloud Messaging"],
+    ["Push notification delivery", "Apple Push Notification service (APNs)"],
+    ["Food database", "USDA FoodData Central"],
+    ["Food database", "Open Food Facts"],
+    ["Support email delivery", "Resend"],
+    ["Website hosting and content delivery", "Vercel"],
+    ["Translation services", "DeepL"],
+    ["Health data synchronization", "Apple HealthKit"],
   ] as const;
 
   return (
     <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.025]">
-      {vendors.map(([name, purpose, href]) => (
+      {providers.map(([purpose, provider], index) => (
         <div
-          key={name}
-          className="grid gap-1 border-b border-white/[0.06] px-4 py-4 last:border-b-0 sm:grid-cols-[13rem_1fr] sm:gap-5"
+          key={`${purpose}-${provider}-${index}`}
+          className="grid gap-1 border-b border-white/[0.06] px-4 py-4 last:border-b-0 sm:grid-cols-[14rem_1fr] sm:gap-5"
         >
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-cyan-300 hover:text-cyan-200"
-          >
-            {name}
-          </a>
-          <p className="leading-6 text-slate-400">{purpose}</p>
+          <p className="font-semibold text-slate-300">{purpose}</p>
+          <p className="leading-6 text-slate-400">{provider}</p>
         </div>
       ))}
     </div>
@@ -1007,76 +876,38 @@ function VendorList() {
 
 function DataCategoryTable() {
   const categories = [
+    ["A. Identifiers", "YES"],
+    ["B. Personal information under California Customer Records statute", "YES"],
+    ["C. Protected classification characteristics", "YES"],
+    ["D. Commercial information", "YES"],
+    ["E. Biometric information", "NO"],
+    ["F. Internet or similar network activity", "YES"],
+    ["G. Geolocation data", "YES"],
+    ["H. Audio, electronic, sensory, or similar information", "YES"],
+    ["I. Professional or employment-related information", "NO"],
+    ["J. Education Information", "NO"],
+    ["K. Inferences drawn from collected personal information", "NO"],
     [
-      "Identifiers",
-      "Yes",
-      "Name, email, account and online identifiers, IP address, and push token. Wings does not currently ask for a phone number or postal address as account fields.",
-    ],
-    [
-      "Customer-record information",
-      "Yes",
-      "Account, profile, coaching, fitness, health, subscription, and support information.",
-    ],
-    [
-      "Protected characteristics",
-      "Limited",
-      "Age and gender when supplied during client onboarding. Wings does not request race, ethnicity, religion, marital status, or national origin.",
-    ],
-    [
-      "Commercial information",
-      "Yes",
-      "Subscription plan, status, invoice, and transaction metadata. Full card details remain with Stripe.",
-    ],
-    ["Biometric information", "No", "Wings does not collect biometric templates."],
-    [
-      "Internet or network activity",
-      "Yes",
-      "App and website usage, screen and product events, diagnostics, and interactions with Wings.",
-    ],
-    [
-      "Geolocation",
-      "Limited",
-      "Approximate country or region derived from IP or device analytics. Wings does not request precise GPS location.",
-    ],
-    [
-      "Audio, visual, or similar information",
-      "Yes",
-      "Photos, videos, audio messages, and files users choose to upload or send.",
-    ],
-    [
-      "Professional or employment information",
-      "No",
-      "Wings does not request employment history or professional qualifications as account fields.",
-    ],
-    ["Education information", "No", "Wings does not collect student records."],
-    [
-      "Inferences",
-      "No",
-      "Wings does not create sensitive-characteristic profiles or automated legal decisions from user data.",
-    ],
-    [
-      "Sensitive personal information",
-      "Yes",
-      "Authentication data, private communications, health and fitness data, injuries, medical notes, and wearable information.",
+      "L. Sensitive personal Information, including account login, message contents, and health data",
+      "YES",
     ],
   ] as const;
 
   return (
     <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.025]">
-      {categories.map(([category, collected, details]) => (
+      {categories.map(([category, collected]) => (
         <div
           key={category}
-          className="grid gap-2 border-b border-white/[0.06] px-4 py-4 last:border-b-0 sm:grid-cols-[10rem_4rem_1fr] sm:gap-4"
+          className="grid gap-2 border-b border-white/[0.06] px-4 py-4 last:border-b-0 sm:grid-cols-[1fr_5rem] sm:gap-4"
         >
           <p className="font-semibold text-slate-300">{category}</p>
           <p
             className={
-              collected === "No" ? "text-slate-500" : "text-emerald-300"
+              collected === "NO" ? "text-slate-500" : "text-emerald-300"
             }
           >
             {collected}
           </p>
-          <p className="leading-6 text-slate-400">{details}</p>
         </div>
       ))}
     </div>
