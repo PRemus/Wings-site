@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AlertTriangle, Check, ExternalLink, RefreshCw } from "lucide-react";
-import { WINGS_APP_LOGIN_DEEP_LINK } from "@/lib/deep-links";
+import { WINGS_STRIPE_CONNECT_RETURN_DEEP_LINK } from "@/lib/deep-links";
 
 type ConnectRedirectVariant = "return" | "refresh";
 
@@ -48,7 +48,7 @@ const pageCopy = {
 
 function openWingsApp() {
   const link = document.createElement("a");
-  link.href = WINGS_APP_LOGIN_DEEP_LINK;
+  link.href = WINGS_STRIPE_CONNECT_RETURN_DEEP_LINK;
   link.style.display = "none";
   document.body.appendChild(link);
   link.click();
@@ -125,7 +125,7 @@ export function StripeConnectRedirectCard({
         <p className="mt-3 leading-7 text-slate-400">{content.body}</p>
 
         <a
-          href={WINGS_APP_LOGIN_DEEP_LINK}
+          href={WINGS_STRIPE_CONNECT_RETURN_DEEP_LINK}
           className="mt-8 inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-6 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
         >
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
