@@ -51,6 +51,12 @@ export default function Footer() {
           <div>
             <p className="text-sm font-semibold text-slate-300">Support</p>
             <div className="mt-4 flex flex-col gap-3 text-sm">
+              <Link
+                href="/support"
+                className="text-slate-500 transition-colors hover:text-white"
+              >
+                Support
+              </Link>
               <a
                 href="mailto:wings.app@yahoo.com"
                 className="break-words text-slate-500 transition-colors hover:text-white"
