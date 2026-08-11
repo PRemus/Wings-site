@@ -98,7 +98,7 @@ export default function PrivacyPolicyPage() {
                 Privacy Policy
               </h1>
               <p className="mt-2 text-sm text-slate-500">
-                Last updated: July 19, 2026
+                Last updated: August 11, 2026
               </p>
             </div>
           </header>
@@ -158,8 +158,12 @@ export default function PrivacyPolicyPage() {
                 applicable law.
               </KeyPoint>
               <KeyPoint question="Do we collect any information from third parties?">
-                No. We collect personal information directly from users when
-                they create an account or use our Services.
+                We collect personal information directly from users when they
+                create an account or use our Services. We may also receive
+                purchase or subscription status information from payment and
+                entitlement providers such as Apple, RevenueCat, and Stripe
+                where necessary to provide subscription or payment-related
+                features.
               </KeyPoint>
               <KeyPoint question="How do we process your information?">
                 We process your information to provide, improve, and administer
@@ -256,7 +260,8 @@ export default function PrivacyPolicyPage() {
                   "health and fitness information",
                   "age",
                   "payment transaction information",
-                  "purchase and package history",
+                  "purchase, subscription, and package history",
+                  "product or subscription identifiers",
                 ]}
               />
 
@@ -268,28 +273,37 @@ export default function PrivacyPolicyPage() {
 
               <Subheading>Payment data</Subheading>
               <p>
-                Payments are processed by{" "}
+                iOS In-App Purchase payments for Wings trainer subscriptions
+                are processed by Apple. Wings does not collect or store
+                users&apos; full payment card details for Apple In-App
+                Purchases. Apple may provide subscription or purchase status
+                information necessary for entitlement management.
+              </p>
+              <p>
+                RevenueCat is used to manage and verify subscription
+                entitlements and subscription status. RevenueCat may process
+                subscription or purchase-related information necessary to
+                determine access, including the Wings user identifier used to
+                associate a subscription with the authenticated account.
+                RevenueCat does not process users&apos; full card details and is
+                not the merchant or payment processor.
+              </p>
+              <p>
+                Stripe and Stripe Connect continue to process applicable
+                Android or web trainer subscription payments and
+                client-to-trainer coaching package payments where used. See{" "}
                 <a
                   href="https://stripe.com/privacy"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cyan-400 hover:text-cyan-300"
                 >
-                  Stripe
+                  Stripe&apos;s Privacy Policy
                 </a>
-                . Wings does not collect or store payment card information.
-                Stripe collects and processes payment card details in accordance
-                with its Privacy Policy. Wings stores only payment transaction
-                information necessary to provide the Services, such as
-                transaction status, purchased package, and payment identifiers.
-              </p>
-              <p>
-                Payments made through the Wings app are processed securely by
-                Stripe. This includes trainer subscriptions and the purchase of
-                coaching packages from personal trainers. Wings does not collect
-                or store users&apos; payment card information. Payment card
-                details are collected and processed directly by Stripe in
-                accordance with Stripe&apos;s Privacy Policy.
+                . Wings stores only payment or purchase information necessary
+                to provide the Services, such as transaction status, purchased
+                package, product or subscription identifier, subscription
+                status, and payment identifiers.
               </p>
 
               <Subheading>Application data</Subheading>
@@ -406,7 +420,8 @@ export default function PrivacyPolicyPage() {
                   "to track fitness progress, including body measurements, workout history, progress photos, and achievements;",
                   "to sync health data from Apple Health when the user has granted permission;",
                   "to manage trainer-client relationships;",
-                  "to process in-app payments and manage coaching package purchases;",
+                  "to process applicable payments and manage coaching package purchases;",
+                  "to manage and verify trainer subscription entitlements and subscription status;",
                   "to manage connected payment accounts, including Stripe accounts, payouts, and payment-related features.",
                 ]}
               />
@@ -844,7 +859,10 @@ function EmailLink({ email }: { email: string }) {
 
 function ProviderList() {
   const providers = [
-    ["Invoice and Billing", "Stripe"],
+    ["iOS In-App Purchase payment processing", "Apple App Store"],
+    ["Subscription entitlement and status management", "RevenueCat"],
+    ["Android and web trainer subscription payment processing", "Stripe"],
+    ["Client-to-trainer coaching package payments", "Stripe Connect"],
     ["Web and Mobile Analytics", "Google Analytics for Firebase"],
     ["Website Performance Monitoring", "Firebase Crash Reporting"],
     ["Backend, database, authentication and file storage", "Supabase"],

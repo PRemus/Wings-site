@@ -605,7 +605,7 @@ const sections: LegalSection[] = [
       { type: "subheading", text: "Free Trial" },
       {
         type: "paragraph",
-        text: "Where offered, Wings may provide a free trial period for eligible trainer accounts.",
+        text: "Where offered, Wings may provide a free trial period for eligible trainer accounts. On iOS, any introductory free trial is subject to Apple's eligibility rules and may only be available to eligible users.",
       },
       {
         type: "paragraph",
@@ -613,7 +613,7 @@ const sections: LegalSection[] = [
       },
       {
         type: "paragraph",
-        text: "At the end of the trial period, continued access to premium features requires an active paid subscription.",
+        text: "At the end of the trial period, continued access to premium features requires an active paid subscription. Where an introductory trial applies, the subscription converts to the normal paid renewal price after the trial unless canceled before the trial ends.",
       },
       {
         type: "paragraph",
@@ -622,20 +622,28 @@ const sections: LegalSection[] = [
       { type: "subheading", text: "Automatic Renewal" },
       {
         type: "paragraph",
-        text: "Trainer subscriptions are billed on a recurring basis through Stripe.",
+        text: "Trainer subscriptions are billed on a recurring basis. On iOS, Wings Starter Monthly and Wings Pro Monthly are auto-renewable subscriptions purchased through Apple In-App Purchase, and Apple processes payment for those subscriptions.",
       },
       {
         type: "paragraph",
-        text: "Unless canceled before the next billing date, subscriptions automatically renew at the end of each billing period.",
+        text: "Trainer subscriptions purchased on Android or through the web may be processed through Stripe, where available.",
       },
       {
         type: "paragraph",
-        text: "By purchasing a subscription, you authorize Stripe to charge your selected payment method for each renewal until the subscription is canceled.",
+        text: "Unless canceled before the next billing date, subscriptions automatically renew at the end of each billing period. iOS subscriptions renew automatically unless canceled in accordance with Apple's subscription rules.",
+      },
+      {
+        type: "paragraph",
+        text: "By purchasing a subscription, you authorize the applicable payment processor, including Apple for iOS purchases or Stripe for Android or web purchases, to charge your selected payment method for each renewal until the subscription is canceled.",
       },
       { type: "subheading", text: "Subscription Management" },
       {
         type: "paragraph",
-        text: "Trainer subscriptions may be managed through the Stripe Billing Portal or any subscription management interface made available within the Services.",
+        text: "Trainer subscriptions purchased on iOS can be managed or canceled through your Apple Account or App Store subscription settings. Restore Purchases is available where applicable.",
+      },
+      {
+        type: "paragraph",
+        text: "Trainer subscriptions purchased on Android or through the web may be managed through the Stripe Billing Portal or any subscription management interface made available within the Services.",
       },
       {
         type: "paragraph",
@@ -705,7 +713,7 @@ const sections: LegalSection[] = [
     blocks: [
       {
         type: "paragraph",
-        text: "Payments within the Services are processed by independent third-party payment providers, including Stripe and Stripe Connect.",
+        text: "Payments within the Services are processed by independent third-party payment providers. Apple processes iOS In-App Purchase payments for Wings trainer subscriptions. Stripe may process Android or web trainer subscription payments where available, and Stripe Connect processes supported client-to-trainer coaching package payments.",
       },
       {
         type: "paragraph",
@@ -742,7 +750,7 @@ const sections: LegalSection[] = [
       { type: "subheading", text: "Failed Payments" },
       {
         type: "paragraph",
-        text: "If a payment cannot be completed due to insufficient funds, expired payment methods, banking issues, fraud prevention measures, or other payment failures, Wings or Stripe may suspend or reject the transaction.",
+        text: "If a payment cannot be completed due to insufficient funds, expired payment methods, banking issues, fraud prevention measures, or other payment failures, Wings or the applicable payment processor may suspend or reject the transaction.",
       },
       {
         type: "paragraph",
@@ -782,6 +790,10 @@ const sections: LegalSection[] = [
       {
         type: "paragraph",
         text: "Nothing in these Terms limits any mandatory consumer rights available under applicable law.",
+      },
+      {
+        type: "paragraph",
+        text: "Purchases made through Apple In-App Purchase are subject to Apple's billing and refund policies. Refund requests for Apple purchases must be handled through Apple's applicable process.",
       },
     ],
   },
@@ -1120,6 +1132,8 @@ const sections: LegalSection[] = [
         items: [
           "Stripe;",
           "Stripe Connect;",
+          "Apple App Store and In-App Purchase;",
+          "RevenueCat;",
           "Apple Health (where enabled);",
           "Apple Watch;",
           "Google Fit or Health Connect (where supported);",
@@ -1387,7 +1401,7 @@ export default function TermsOfServicePage() {
                 Terms of Service
               </h1>
               <p className="mt-2 text-sm text-slate-500">
-                Last updated: July 19, 2026
+                Last updated: August 11, 2026
               </p>
             </div>
           </header>
